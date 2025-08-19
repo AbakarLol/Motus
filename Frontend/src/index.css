@@ -25,5 +25,8 @@ body{
     h1{
         @apply text-5xl font-bold text-amber-50
     }
+     h2{
+        @apply text-3xl  text-amber-50
+    }
 }
 
