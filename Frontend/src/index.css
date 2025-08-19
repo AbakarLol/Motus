@@ -23,7 +23,7 @@ body{
 
 @layer base{
     h1{
-        @apply text-base text-4xl tracking-tight
+        @apply text-5xl font-bold text-amber-50
     }
 }
 
