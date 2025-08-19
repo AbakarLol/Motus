@@ -2,6 +2,7 @@ import Footer from "./Footer"
 import Header from "./Header"
 import Board from "./Board"
 import Field from "./Field"
+import Button from "./Button"
 
 
 
@@ -13,6 +14,7 @@ function App() {
       <Header />
       <Board />
       <Field />
+      <Button />
       <Footer />
     </div>
     
