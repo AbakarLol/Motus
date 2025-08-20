@@ -5,6 +5,8 @@ body{
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    width: 100vw;
+    height: 100vh;
     background: #bc4e9c;  /* fallback for old browsers */
     background: -webkit-linear-gradient(-45deg, #f80759, #bc4e9c);  /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(-45deg, #f80759, #bc4e9c); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
@@ -17,7 +19,7 @@ body{
         @apply flex justify-around items-center  bg-amber-50 rounded-2xl shadow-xl/40
     }
     .main{
-        @apply flex flex-col items-center justify-center gap-8 h-screen
+        @apply flex flex-col items-center justify-center gap-8 h-screen w-full
     }
     .scores-label {
         @apply flex justify-between items-end gap-1

@@ -11,7 +11,7 @@ export default function Board(){
     const [hightScore, setHight] = useState(0)
 
     return(
-        <div className="card h-40 w-200 ">
+        <div className="card h-1/7 w-full ">
             <div className='scores'>
                 <div className ="scores-label" ><EmojiEventsIcon fontSize='large' className='text-amber-400 text-3xl' /> Score:</div>
                 <div className='scores-value'> {score} </div>                
