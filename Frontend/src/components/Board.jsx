@@ -1,22 +1,28 @@
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import StairsIcon from '@mui/icons-material/Stairs';
 import BarChartIcon from '@mui/icons-material/BarChart';
+import { useState } from 'react';
+
 
 
 export default function Board(){
+    const [score, setScore] = useState(0);
+    const [level, setLevel] = useState(1);
+    const [hightScore, setHight] = useState(0)
+
     return(
-        <div className="card h-40 w-200">
-            <div>
-                <div><EmojiEventsIcon fontSize='large' className='text-amber-400' /> Score:</div>
-                <div></div>                
+        <div className="card h-40 w-200 ">
+            <div className='scores'>
+                <div className ="scores-label" ><EmojiEventsIcon fontSize='large' className='text-amber-400 text-3xl' /> Score:</div>
+                <div className='scores-value'> {score} </div>                
             </div>         
-            <div>
-                <div> <StairsIcon fontSize='large' className='text-blue-400' /> Level: </div>
-                <div></div>
+            <div className='scores' >
+                <div className ="scores-label"  > <StairsIcon fontSize='large' className='text-blue-400 text-3xl' /> Level: </div>
+                <div className='scores-value' >{level}</div>
             </div>
-            <div>
-                <div> <BarChartIcon fontSize='large' className='text-red-400' /> High Score: </div>
-                <div></div>
+            <div className='scores' >
+                <div className ="scores-label" > <BarChartIcon fontSize='large' className='text-red-400 text-3xl' /> High Score: </div>
+                <div className='scores-value'>{hightScore}</div>
             </div>
 
         </div>
