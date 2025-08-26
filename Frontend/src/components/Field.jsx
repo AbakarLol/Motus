@@ -5,12 +5,13 @@ export default function Field(){
     const [words, setWords] = useState([]);
     const [inputValue, setInputValue] = useState("");
     const inputRef = useRef([]);
+    const [w, setW] = useState([["a", "b", "f"], ["c", "d", "g"]])
 
     async function fetchWords(){  
         try{
             const response = await axios.get("https://trouve-mot.fr/api/size/4/4");
             const result = response.data
-            const adaptedResult = result.map(word => word.name.toUpperCase())
+            const adaptedResult = result.map(word => [word.name.toUpperCase().split("")])
             console.log(adaptedResult)
             setWords(adaptedResult)
         }catch(error){
@@ -22,6 +23,7 @@ export default function Field(){
         console.log(inputRef)
         fetchWords();
         console.log("my words: " + words)
+        inputRef.current[0]?.focus()
         
     }, [] )
 
@@ -44,21 +46,22 @@ export default function Field(){
 
     }
 
+    
+
     return(
         
         <div className="card lg:h-1/2 md:w-150 w-full  h-1/3">
-            {
-                words.map((letter, index) => 
-                <input 
-                    ref={(ref) => inputRef.current.push(ref)} 
-                    className="letter-input" 
-                    type="text" 
-                    maxLength="1"
-                    key={index}
-                    name= {`code-${index}`}
-                    onChange={handleChange}
-                />
-                 )
+            {             
+                w.map((singleWord, wordIndex)=>{
+                    return(
+                        <div key={wordIndex}>
+                            {
+                                w[wordIndex].map((letter, index) =>  (<h2 className="text-blue-500" key={index}>Hello World</h2>) )
+                            }
+                        </div>
+                    )
+                })
+                
             }
         </div>
     )
