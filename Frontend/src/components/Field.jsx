@@ -2,10 +2,14 @@ import { useRef, useEffect, useState } from "react"
 import axios from 'axios';
 
 export default function Field(){
+
+    
     const [words, setWords] = useState([]);
     const [inputValue, setInputValue] = useState("");
     const inputRef = useRef([]);
     const [w, setW] = useState([["a", "b", "f"], ["c", "d", "g"]])
+
+
 
     async function fetchWords(){  
         try{
@@ -27,6 +31,8 @@ export default function Field(){
         
     }, [] )
 
+
+
     function handleChange(event){
         const [, inputIndex] = event.target.name.split("-");
         let refIndex = parseInt(inputIndex, 10);
@@ -34,13 +40,13 @@ export default function Field(){
         setInputValue(event.target.value);
         console.log(inputValue)
 
-        if(refIndex < 3){
+        if(refIndex < words.length){
             inputRef.current[refIndex+1].focus()
 
         }else{
             // const endOfIndex = document.querySelector(`Input[name="code-${refIndex}]"`);
             // endOfIndex.blur()
-            inputRef.current[3].focus()
+            inputRef.current[words.length].focus()
 
         }
 
@@ -50,13 +56,25 @@ export default function Field(){
 
     return(
         
-        <div className="card lg:h-1/2 md:w-150 w-full  h-1/3">
+        <div className="card flex-col justify-center-safe gap-2 j lg:h-1/2 md:w-150 w-full  h-1/3">
             {             
-                w.map((singleWord, wordIndex)=>{
+                words.map((singleWord, wordIndex)=>{
                     return(
                         <div key={wordIndex}>
                             {
-                                w[wordIndex].map((letter, index) =>  (<h2 className="text-blue-500" key={index}>Hello World</h2>) )
+                                words.map((letter, index) =>  (
+                                    
+                                    <input 
+                                        ref={(ref) => inputRef.current.push(ref)} 
+                                        className="letter-input m-1" 
+                                        type="text" 
+                                        maxLength="1"
+                                        key={index}
+                                        name= {`code-${wordIndex}${index}`}
+                                        onChange={handleChange}
+                                    />
+                                    
+                ) )
                             }
                         </div>
                     )
