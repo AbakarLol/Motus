@@ -7,17 +7,20 @@ export default function Field(){
     const [words, setWords] = useState([]);
     const [inputValue, setInputValue] = useState("");
     const inputRef = useRef([]);
-    const [w, setW] = useState([["a", "b", "f"], ["c", "d", "g"]])
+    const [selectedWord, setSelected] = useState([])
 
 
 
     async function fetchWords(){  
         try{
-            const response = await axios.get("https://trouve-mot.fr/api/size/4/4");
+            const response = await axios.get("https://trouve-mot.fr/api/size/4/10");
             const result = response.data
             const adaptedResult = result.map(word => [word.name.toUpperCase().split("")])
             console.log(adaptedResult)
             setWords(adaptedResult)
+            const randomIndex = Math.round(Math.random() * 10);
+            setSelected(result[randomIndex].name.toUpperCase().split(""))
+            console.log("Selected Word :" + selectedWord)
         }catch(error){
             console.log(error)
         }
@@ -34,8 +37,8 @@ export default function Field(){
 
 
     function handleChange(event){
-        const [, inputIndex] = event.target.name.split("-");
-        let refIndex = parseInt(inputIndex, 10);
+        const [, wordIndex] = event.target.name.split("-");
+        let refIndex = parseInt(wordIndex, 10);
         console.log(event.target.name)
         setInputValue(event.target.value);
         console.log(inputValue)
@@ -58,11 +61,12 @@ export default function Field(){
         
         <div className="card flex-col justify-center-safe gap-2 j lg:h-1/2 md:w-150 w-full  h-1/3">
             {             
-                words.map((singleWord, wordIndex)=>{
+                selectedWord.map((singleWord, singleWordIndex)=>{
                     return(
-                        <div key={wordIndex}>
+                        <div key={singleWordIndex}>
                             {
-                                words.map((letter, index) =>  (
+                               
+                                selectedWord.map((letter, index) =>  (
                                     
                                     <input 
                                         ref={(ref) => inputRef.current.push(ref)} 
@@ -70,7 +74,7 @@ export default function Field(){
                                         type="text" 
                                         maxLength="1"
                                         key={index}
-                                        name= {`code-${wordIndex}${index}`}
+                                        name= {`code-${index}`}
                                         onChange={handleChange}
                                     />
                                     
