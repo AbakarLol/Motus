@@ -13,7 +13,7 @@ export default function Field(){
 
     async function fetchWords(){  
         try{
-            const response = await axios.get("https://trouve-mot.fr/api/size/4/10");
+            const response = await axios.get("https://trouve-mot.fr/api/size/4/4");
             const result = response.data
             const adaptedResult = result.map(word => [word.name.toUpperCase().split("")])
             console.log(adaptedResult)
@@ -26,13 +26,16 @@ export default function Field(){
         }
     }
 
+
+
     useEffect(() => {
         console.log(inputRef)
         fetchWords();
         console.log("my words: " + words)
         inputRef.current[0]?.focus()
         
-    }, [] )
+    }, [])
+
 
 
 
@@ -43,13 +46,16 @@ export default function Field(){
         setInputValue(event.target.value);
         console.log(inputValue)
 
-        if(refIndex < words.length){
+        if(refIndex < (words.length -1) * 2  ){
             inputRef.current[refIndex+1].focus()
-
+        }else if(refIndex === words.length){
+                refIndex = 0 
+        
         }else{
             // const endOfIndex = document.querySelector(`Input[name="code-${refIndex}]"`);
             // endOfIndex.blur()
-            inputRef.current[words.length].focus()
+            inputRef.current[words.length * 2].blur()
+            
 
         }
 
@@ -61,12 +67,12 @@ export default function Field(){
         
         <div className="card flex-col justify-center-safe gap-2 j lg:h-1/2 md:w-150 w-full  h-1/3">
             {             
-                selectedWord.map((singleWord, singleWordIndex)=>{
+                words.map((singleWord, singleWordIndex)=>{
                     return(
                         <div key={singleWordIndex}>
                             {
                                
-                                selectedWord.map((letter, index) =>  (
+                                words.map((letter, index) =>  (
                                     
                                     <input 
                                         ref={(ref) => inputRef.current.push(ref)} 
