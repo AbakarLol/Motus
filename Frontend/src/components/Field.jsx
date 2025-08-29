@@ -15,12 +15,17 @@ export default function Field(){
         try{
             const response = await axios.get("https://trouve-mot.fr/api/size/4/4");
             const result = response.data
-            const adaptedResult = result.map(word => [word.name.toUpperCase().split("")])
+            // const adaptedResult = result.map(word => [word.name.toUpperCase()])
+            let adaptedResult = []
+            for (let i = 0; i < result.length; i++) {
+                adaptedResult.push(result[i].name.toUpperCase().split(""));
+                
+            }
             console.log(adaptedResult)
             setWords(adaptedResult)
-            const randomIndex = Math.round(Math.random() * 10);
-            setSelected(result[randomIndex].name.toUpperCase().split(""))
-            console.log("Selected Word :" + selectedWord)
+            // const randomIndex = Math.round(Math.random() * 10);
+            // setSelected(result[randomIndex].name.toUpperCase().split(""))
+            // console.log("Selected Word :" + selectedWord)
         }catch(error){
             console.log(error)
         }
@@ -40,9 +45,9 @@ export default function Field(){
 
 
     function handleChange(event){
+        
         const [, wordIndex] = event.target.name.split("-");
         let refIndex = parseInt(wordIndex, 10);
-        console.log(event.target.name)
         setInputValue(event.target.value);
         console.log(inputValue)
 
@@ -50,15 +55,11 @@ export default function Field(){
             inputRef.current[refIndex+1].focus()
         }else if(refIndex === words.length){
                 refIndex = 0 
-        
         }else{
             // const endOfIndex = document.querySelector(`Input[name="code-${refIndex}]"`);
             // endOfIndex.blur()
             inputRef.current[words.length * 2].blur()
-            
-
         }
-
     }
 
     
@@ -72,7 +73,7 @@ export default function Field(){
                         <div key={singleWordIndex}>
                             {
                                
-                                words.map((letter, index) =>  (
+                                words[singleWordIndex].map((letter, index) =>  (
                                     
                                     <input 
                                         ref={(ref) => inputRef.current.push(ref)} 
