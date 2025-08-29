@@ -49,31 +49,31 @@ export default function Field(){
         const [, wordIndex] = event.target.name.split("-");
         let refIndex = parseInt(wordIndex, 10);
         setInputValue(event.target.value);
-        console.log(inputValue)
+        console.log(event.target.name)
 
-        if(refIndex < (words.length -1) * 2  ){
+        if(refIndex < (words.length * words.length) - 1 ){
             inputRef.current[refIndex+1].focus()
-        }else if(refIndex === words.length){
-                refIndex = 0 
         }else{
             // const endOfIndex = document.querySelector(`Input[name="code-${refIndex}]"`);
             // endOfIndex.blur()
-            inputRef.current[words.length * 2].blur()
+            inputRef.current[(words.length * words.length) - 1].blur()
         }
     }
 
-    
+    let lettersIndex = 0
 
     return(
         
         <div className="card flex-col justify-center-safe gap-2 j lg:h-1/2 md:w-150 w-full  h-1/3">
             {             
                 words.map((singleWord, singleWordIndex)=>{
+                    
                     return(
                         <div key={singleWordIndex}>
                             {
                                
-                                words[singleWordIndex].map((letter, index) =>  (
+                                words[singleWordIndex].map((letter, index) => { 
+                                    return(
                                     
                                     <input 
                                         ref={(ref) => inputRef.current.push(ref)} 
@@ -81,14 +81,20 @@ export default function Field(){
                                         type="text" 
                                         maxLength="1"
                                         key={index}
-                                        name= {`code-${index}`}
+                                        name= {`code-${lettersIndex++}`}
                                         onChange={handleChange}
+
+                    
                                     />
                                     
-                ) )
-                            }
+                                    
+                )
+                    }
+            )
+                       }
                         </div>
                     )
+
                 })
                 
             }
