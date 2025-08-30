@@ -8,6 +8,7 @@ export default function Field(){
     const [inputValue, setInputValue] = useState("");
     const inputRef = useRef([]);
     const [selectedWord, setSelected] = useState([])
+    let firstIndex = 0
 
 
 
@@ -23,23 +24,45 @@ export default function Field(){
             }
             console.log(adaptedResult)
             setWords(adaptedResult)
+            
             // const randomIndex = Math.round(Math.random() * 10);
             // setSelected(result[randomIndex].name.toUpperCase().split(""))
             // console.log("Selected Word :" + selectedWord)
         }catch(error){
             console.log(error)
         }
+        
+    }
+
+    async function giveFirstHint() {
+
+        const firstLetter = document.querySelector("Input[name='code-0']") 
+        firstLetter.value = await words[0][0]
+        inputRef.current[1]?.focus()
+        firstLetter.disabled = true
+        
     }
 
 
 
+
     useEffect(() => {
-        console.log(inputRef)
-        fetchWords();
-        console.log("my words: " + words)
-        inputRef.current[0]?.focus()
-        
+
+        const init = async () => {
+            console.log(inputRef)
+            fetchWords()
+            console.log("my words: " + words)
+        }
+
+        init();
+    
     }, [])
+
+    useEffect(()=>{
+        if(words && words.length > 0){
+            giveFirstHint()
+        }
+    }, [words])
 
 
 
@@ -62,6 +85,7 @@ export default function Field(){
 
     let lettersIndex = 0
 
+    
     return(
         
         <div className="card flex-col justify-center-safe gap-2 j lg:h-1/2 md:w-150 w-full  h-1/3">
