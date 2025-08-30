@@ -37,8 +37,8 @@ export default function Field(){
     async function giveFirstHint() {
         const inputNameAttribute = `code-${firstIndex}`
         const firstLetter = document.querySelector(`Input[name=${inputNameAttribute}]`) 
-        firstLetter.value = await words[0][0]
-        inputRef.current[1]?.focus()
+        firstLetter.value = await words[firstIndex][firstIndex]
+        inputRef.current[firstIndex + 1]?.focus()
         firstLetter.disabled = true   
     }
 
