@@ -7,14 +7,14 @@ export default function Field(){
     const [words, setWords] = useState([]);
     const [inputValue, setInputValue] = useState("");
     const inputRef = useRef([]);
-    const [selectedWord, setSelected] = useState([])
+    const [size, setSize] = useState(3)
     let firstIndex = 0
 
 
 
     async function fetchWords(){  
         try{
-            const response = await axios.get("https://trouve-mot.fr/api/size/4/4");
+            const response = await axios.get(`https://trouve-mot.fr/api/size/${size}/${size}`);
             const result = response.data
             // const adaptedResult = result.map(word => [word.name.toUpperCase()])
             let adaptedResult = []
@@ -77,11 +77,13 @@ export default function Field(){
             inputRef.current[refIndex+1].disabled = false
             inputRef.current[refIndex+1].focus()
             inputRef.current[refIndex].value = event.target.value.toUpperCase()
+            
         }else{
             // const endOfIndex = document.querySelector(`Input[name="code-${refIndex}]"`);
             // endOfIndex.blur()
             inputRef.current[(words.length * words.length) - 1].blur()
             inputRef.current[refIndex].value = event.target.value.toUpperCase()
+            setSize(size+1)
         }
     }
 
