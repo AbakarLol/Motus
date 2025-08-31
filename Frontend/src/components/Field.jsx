@@ -38,10 +38,10 @@ export default function Field(){
         const inputNameAttribute = `code-${firstIndex}`
         const firstLetter = document.querySelector(`Input[name=${inputNameAttribute}]`) 
         firstLetter.value = await words[firstIndex][firstIndex]
-        inputRef.current[firstIndex + 1]?.focus()
-        firstLetter.disabled = true   
+        inputRef.current[firstIndex + 1].disabled = false
+        inputRef.current[firstIndex + 1]?.focus()   
+        firstLetter.className = "bg-blue-600 letter-input"
     }
-
 
 
 
@@ -71,14 +71,17 @@ export default function Field(){
         const [, wordIndex] = event.target.name.split("-");
         let refIndex = parseInt(wordIndex, 10);
         setInputValue(event.target.value);
-        console.log(event.target.name)
+        console.log(event.target.value)
 
         if(refIndex < (words.length * words.length) - 1 ){
+            inputRef.current[refIndex+1].disabled = false
             inputRef.current[refIndex+1].focus()
+            inputRef.current[refIndex].value = event.target.value.toUpperCase()
         }else{
             // const endOfIndex = document.querySelector(`Input[name="code-${refIndex}]"`);
             // endOfIndex.blur()
             inputRef.current[(words.length * words.length) - 1].blur()
+            inputRef.current[refIndex].value = event.target.value.toUpperCase()
         }
     }
 
@@ -106,6 +109,7 @@ export default function Field(){
                                         key={index}
                                         name= {`code-${lettersIndex++}`}
                                         onChange={handleChange}
+                                        disabled={true}
 
                     
                                     />
