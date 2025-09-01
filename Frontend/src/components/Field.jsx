@@ -5,7 +5,7 @@ export default function Field(){
 
     
     const [words, setWords] = useState([]);
-    const [inputValue, setInputValue] = useState("");
+    // const [inputValue, setInputValue] = useState("");
     const inputRef = useRef([]);
     const [size, setSize] = useState(3)
     let firstIndex = 0
@@ -70,14 +70,19 @@ export default function Field(){
         
         const [, wordIndex] = event.target.name.split("-");
         let refIndex = parseInt(wordIndex, 10);
-        setInputValue(event.target.value);
+        let [checkWordIndex, checkLetterIndex] = inputRef.current[refIndex].getAttribute("wordindex").split("-")
+        checkWordIndex = parseInt(checkWordIndex, 10);
+        checkLetterIndex = parseInt(checkLetterIndex, 10);
+        let inputValue = event.target.value.toUpperCase()
         console.log(event.target.value)
+
+        
 
         if(refIndex < (words.length * words.length) - 1 ){
             inputRef.current[refIndex+1].disabled = false
             inputRef.current[refIndex+1].focus()
-            inputRef.current[refIndex].value = event.target.value.toUpperCase()
-            
+            inputRef.current[refIndex].value = inputValue.toUpperCase()
+                 
         }else{
             // const endOfIndex = document.querySelector(`Input[name="code-${refIndex}]"`);
             // endOfIndex.blur()
@@ -85,6 +90,16 @@ export default function Field(){
             inputRef.current[refIndex].value = event.target.value.toUpperCase()
             setSize(size+1)
         }
+
+        if(inputValue != words[checkWordIndex][checkLetterIndex]){
+            if(words[checkWordIndex].some(inputValue)){
+                inputRef.current[refIndex].value.className = "bg-yellow-400 rounded-full" 
+            }else{
+                inputRef.current[refIndex].className = "bg-red-400 letter-input m-1"
+            }      
+        } 
+       
+
     }
 
     let lettersIndex = 0
@@ -110,6 +125,7 @@ export default function Field(){
                                         maxLength="1"
                                         key={index}
                                         name= {`code-${lettersIndex++}`}
+                                        wordindex = {`${singleWordIndex}-${index}`}
                                         onChange={handleChange}
                                         disabled={true}
 
