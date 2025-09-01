@@ -40,7 +40,7 @@ export default function Field(){
         firstLetter.value = await words[firstIndex][firstIndex]
         inputRef.current[firstIndex + 1].disabled = false
         inputRef.current[firstIndex + 1]?.focus()   
-        firstLetter.className = "bg-blue-600 letter-input"
+        firstLetter.className = "bg-blue-600 letter-input m-1"
     }
 
 
@@ -62,6 +62,17 @@ export default function Field(){
             giveFirstHint()
         }
     }, [words])
+
+    function isIn(word, letter){
+        let found = false
+        for (let i = 0; i<= word.length; i++){
+            if (word[i] == letter) {
+                found = true
+            }
+        }
+        return found
+
+    }
 
 
 
@@ -92,12 +103,14 @@ export default function Field(){
         }
 
         if(inputValue != words[checkWordIndex][checkLetterIndex]){
-            if(words[checkWordIndex].some(inputValue)){
-                inputRef.current[refIndex].value.className = "bg-yellow-400 rounded-full" 
+            if(isIn(words[checkWordIndex], inputValue)){
+                inputRef.current[refIndex].className = " bg-yellow-400 before:z-1 m-1 rounded-full letter-input before:lettre-input " 
             }else{
                 inputRef.current[refIndex].className = "bg-red-400 letter-input m-1"
             }      
-        } 
+        }else{
+            inputRef.current[refIndex].className = 'letter-input -m'
+        }
        
 
     }
