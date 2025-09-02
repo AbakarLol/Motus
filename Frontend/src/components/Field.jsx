@@ -104,12 +104,12 @@ export default function Field(){
 
         if(inputValue != words[checkWordIndex][checkLetterIndex]){
             if(isIn(words[checkWordIndex], inputValue)){
-                inputRef.current[refIndex].className = " bg-yellow-400 before:z-1 m-1 rounded-full letter-input before:lettre-input " 
+                inputRef.current[refIndex].className = "rounded letter-input  m-1 bg-[radial-gradient(circle_at_center,rgba(250,204,21,1)_70%,rgba(96,165,250,1)_71%)]" 
             }else{
                 inputRef.current[refIndex].className = "bg-red-400 letter-input m-1"
             }      
-        }else{
-            inputRef.current[refIndex].className = 'letter-input -m'
+        }else{ 
+            inputRef.current[refIndex].className = 'letter-input m-1'
         }
        
 
