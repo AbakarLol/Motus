@@ -9,6 +9,7 @@ export default function Field(){
     const inputRef = useRef([]);
     const [size, setSize] = useState(3)
     const [backspacePressed, setBackspace] = useState(false)
+    // const [firstIndex, setFirstIndex] = useState(0)
     let firstIndex = 0
 
 
@@ -35,10 +36,14 @@ export default function Field(){
         
     }
 
-    async function giveFirstHint() {
+    async function giveFirstHint(checkWordIndex, checkLetterIndex) {
+        if(firstIndex == 0){
+            checkWordIndex = 0 
+            checkLetterIndex = 0
+        }
         const inputNameAttribute = `code-${firstIndex}`
         const firstLetter = document.querySelector(`Input[name=${inputNameAttribute}]`) 
-        firstLetter.value = await words[firstIndex][firstIndex]
+        firstLetter.value = await words[checkWordIndex][checkLetterIndex]
         inputRef.current[firstIndex + 1].disabled = false
         inputRef.current[firstIndex + 1]?.focus()   
         firstLetter.className = "bg-blue-600 letter-input m-1"
@@ -110,6 +115,11 @@ export default function Field(){
             
             inputRef.current[refIndex].value = inputValue.toUpperCase()
             
+            if (((refIndex +1 ) % size ) === 0){  // preventing that the next input will be a new word by calculating the modulo of the next index (refIndex + 1) by the size of the words
+                firstIndex = refIndex +1          // first index here mean the index of the hint or the first letter of the word to guess
+                console.log("word end")            
+                giveFirstHint(checkWordIndex +1, 0) // checkwordIndex and refIndex are still pointed in the last letter of the preview onchange we go the the next words that why the +1 and the first hint are always the first letter of the word which is located on [wordIndex][0]
+            }
             
                  
         }else{
