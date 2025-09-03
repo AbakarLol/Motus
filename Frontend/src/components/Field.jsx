@@ -8,6 +8,7 @@ export default function Field(){
     // const [inputValue, setInputValue] = useState("");
     const inputRef = useRef([]);
     const [size, setSize] = useState(3)
+    const [backspacePressed, setBackspace] = useState(false)
     let firstIndex = 0
 
 
@@ -90,21 +91,38 @@ export default function Field(){
         
 
         if(refIndex < (words.length * words.length) - 1 ){
-            inputRef.current[refIndex+1].disabled = false
-            inputRef.current[refIndex+1].focus()
+            
+            
+            inputRef.current[refIndex].addEventListener('keydown', (event)=> {
+                if(event.key === 'Backspace'){
+                    setBackspace(true)   
+                }
+                
+            })
+
+            if(backspacePressed){
+                inputRef.current[refIndex].focus()
+                setBackspace(false)
+            }else{
+                inputRef.current[refIndex+1].disabled = false
+                inputRef.current[refIndex+1].focus()
+            }
+            
             inputRef.current[refIndex].value = inputValue.toUpperCase()
+            
+            
                  
         }else{
             // const endOfIndex = document.querySelector(`Input[name="code-${refIndex}]"`);
             // endOfIndex.blur()
             inputRef.current[(words.length * words.length) - 1].blur()
             inputRef.current[refIndex].value = event.target.value.toUpperCase()
-            setSize(size+1)
+            // setSize(size+1)
         }
 
         if(inputValue != words[checkWordIndex][checkLetterIndex]){
             if(isIn(words[checkWordIndex], inputValue)){
-                inputRef.current[refIndex].className = "rounded letter-input  m-1 bg-[radial-gradient(circle_at_center,rgba(250,204,21,1)_70%,rgba(96,165,255,1)_71%)]" 
+                inputRef.current[refIndex].className = "rounded letter-input  m-1 bg-[radial-gradient(circle_at_center,rgba(250,204,21,1)_70%,rgba(96,165,250,1)_71%)]" 
             }else{
                 inputRef.current[refIndex].className = "bg-red-400 letter-input m-1"
             }      
