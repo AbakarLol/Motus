@@ -44,8 +44,7 @@ export default function Field(){
         const inputNameAttribute = `code-${firstIndex}`
         const firstLetter = document.querySelector(`Input[name=${inputNameAttribute}]`) 
         firstLetter.value = await words[checkWordIndex][checkLetterIndex]
-        inputRef.current[firstIndex + 1].disabled = false
-        inputRef.current[firstIndex + 1]?.focus()   
+        handleAutoFocus(firstIndex)   
         firstLetter.className = "bg-blue-600 letter-input m-1"
     }
 
@@ -80,6 +79,24 @@ export default function Field(){
 
     }
 
+    function handleAutoFocus(refIndex){
+
+        inputRef.current[refIndex].addEventListener('keydown', (event)=> {
+                if(event.key === 'Backspace'){
+                    setBackspace(true)   
+                }
+                
+            })
+
+            if(backspacePressed){
+                inputRef.current[refIndex].focus()
+                setBackspace(false)
+            }else{
+                inputRef.current[refIndex+1].disabled = false
+                inputRef.current[refIndex+1].focus()
+            }
+    }
+
 
 
 
@@ -98,20 +115,7 @@ export default function Field(){
         if(refIndex < (words.length * words.length) - 1 ){
             
             
-            inputRef.current[refIndex].addEventListener('keydown', (event)=> {
-                if(event.key === 'Backspace'){
-                    setBackspace(true)   
-                }
-                
-            })
-
-            if(backspacePressed){
-                inputRef.current[refIndex].focus()
-                setBackspace(false)
-            }else{
-                inputRef.current[refIndex+1].disabled = false
-                inputRef.current[refIndex+1].focus()
-            }
+            handleAutoFocus(refIndex)
             
             inputRef.current[refIndex].value = inputValue.toUpperCase()
             
