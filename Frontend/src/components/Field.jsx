@@ -44,7 +44,7 @@ export default function Field(){
         const inputNameAttribute = `code-${firstIndex}`
         const firstLetter = document.querySelector(`Input[name=${inputNameAttribute}]`) 
         firstLetter.value = await words[checkWordIndex][checkLetterIndex]
-        handleAutoFocus(firstIndex)   
+        handleAutoFocus(firstIndex)                                 // after giving the first hint the focus is in the next element but if the next element is in correcting state with Backspace keydown that mean we should stay focused in this element
         firstLetter.className = "bg-blue-600 letter-input m-1"
     }
 
@@ -79,11 +79,11 @@ export default function Field(){
 
     }
 
-    function handleAutoFocus(refIndex){
+    function handleAutoFocus(refIndex){         // Backpace erase the current element value but the element should be focused to wait for next value otherwise the next elment should be focused
 
         inputRef.current[refIndex].addEventListener('keydown', (event)=> {
                 if(event.key === 'Backspace'){
-                    setBackspace(true)   
+                    setBackspace(true)          // Backpased tracked by this state if it is pressed then this state turn to true otherwise it is false
                 }
                 
             })
