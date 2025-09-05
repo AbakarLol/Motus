@@ -62,11 +62,15 @@ export default function Field(){
     
     }, [])
 
+
+
     useEffect(()=>{
         if(words && words.length > 0){
             giveFirstHint()
         }
     }, [words])
+
+
 
     function isIn(word, letter){
         let found = false
@@ -78,6 +82,8 @@ export default function Field(){
         return found
 
     }
+
+
 
     function handleAutoFocus(refIndex){         // Backpace erase the current element value but the element should be focused to wait for next value otherwise the next elment should be focused
 
@@ -119,10 +125,11 @@ export default function Field(){
             
             inputRef.current[refIndex].value = inputValue.toUpperCase()
             
-            if (((refIndex +1 ) % size ) === 0){  // preventing that the next input will be a new word by calculating the modulo of the next index (refIndex + 1) by the size of the words
+            if (((refIndex + 1 ) % size ) === 0){  // preventing that the next input will be a new word by calculating the modulo of the next index (refIndex + 1) by the size of the words
                 firstIndex = refIndex +1          // first index here mean the index of the hint or the first letter of the word to guess
                 console.log("word end")            
                 giveFirstHint(checkWordIndex +1, 0) // checkwordIndex and refIndex are still pointed in the last letter of the preview onchange we go the the next words that why the +1 and the first hint are always the first letter of the word which is located on [wordIndex][0]
+                inputRef.current[firstIndex].blur()
             }
             
                  
