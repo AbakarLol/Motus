@@ -9,8 +9,10 @@ export default function Field(){
     const inputRef = useRef([]);
     const [size, setSize] = useState(3)
     const [backspacePressed, setBackspace] = useState(false)
+    const [error, setErrors] = useState(false)
     // const [firstIndex, setFirstIndex] = useState(0)
     let firstIndex = 0
+    
 
 
 
@@ -104,6 +106,9 @@ export default function Field(){
     }
 
 
+    function updateLevel(){
+        // call api for another set of words with updated size
+    }
 
 
     function handleChange(event){
@@ -138,7 +143,10 @@ export default function Field(){
             // endOfIndex.blur()
             inputRef.current[(words.length * words.length) - 1].blur()
             inputRef.current[refIndex].value = event.target.value.toUpperCase()
-            // setSize(size+1)
+            if(!error){
+                setSize(size+1);
+                updateLevel()
+            }
         }
 
         if(inputValue != words[checkWordIndex][checkLetterIndex]){
@@ -146,7 +154,8 @@ export default function Field(){
                 inputRef.current[refIndex].className = "rounded letter-input  m-1 bg-[radial-gradient(circle_at_center,rgba(250,204,21,1)_70%,rgba(96,165,250,1)_71%)]" 
             }else{
                 inputRef.current[refIndex].className = "bg-red-400 letter-input m-1"
-            }      
+            }
+            setErrors(true)      
         }else{ 
             inputRef.current[refIndex].className = 'letter-input m-1'
         }
