@@ -10,6 +10,7 @@ export default function Field(){
     const [size, setSize] = useState(3)
     const [backspacePressed, setBackspace] = useState(false)
     const [error, setErrors] = useState(false)
+    let round = 0
     // const [firstIndex, setFirstIndex] = useState(0)
     let firstIndex = 0
     
@@ -106,8 +107,10 @@ export default function Field(){
     }
 
 
-    function updateLevel(){
+    async function updateLevel(){
         // call api for another set of words with updated size
+        await fetchWords()
+        
     }
 
 
@@ -143,10 +146,18 @@ export default function Field(){
             // endOfIndex.blur()
             inputRef.current[(words.length * words.length) - 1].blur()
             inputRef.current[refIndex].value = event.target.value.toUpperCase()
-            if(!error){
-                setSize(size+1);
-                updateLevel()
-            }
+            
+            // if(!error){
+            //     round = round +1
+            //     console.log('end of round')                
+            //     if(round === size){
+            //         round = 0
+            //         setSize(size+1);  
+            //     }
+
+            //     updateLevel()
+                
+            // }
         }
 
         if(inputValue != words[checkWordIndex][checkLetterIndex]){
@@ -158,6 +169,7 @@ export default function Field(){
             setErrors(true)      
         }else{ 
             inputRef.current[refIndex].className = 'letter-input m-1'
+            setErrors(false)
         }
        
 
@@ -169,6 +181,7 @@ export default function Field(){
     return(
         
         <div className="card flex-col justify-center-safe gap-2 j lg:h-1/2 md:w-150 w-full  h-1/3">
+            <p>level : {size * round}</p>
             {             
                 words.map((singleWord, singleWordIndex)=>{
                     
@@ -189,6 +202,7 @@ export default function Field(){
                                         wordindex = {`${singleWordIndex}-${index}`}
                                         onChange={handleChange}
                                         disabled={true}
+                                        
 
                     
                                     />
