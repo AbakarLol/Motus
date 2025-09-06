@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from "react"
+import { useRef, useEffect, useState, use } from "react"
 import axios from 'axios';
 
 export default function Field(){
@@ -10,7 +10,7 @@ export default function Field(){
     const [size, setSize] = useState(3)
     const [backspacePressed, setBackspace] = useState(false)
     const [error, setErrors] = useState(false)
-    let round = 0
+    const [round, setRound] = useState(1)
     // const [firstIndex, setFirstIndex] = useState(0)
     let firstIndex = 0
     
@@ -111,6 +111,7 @@ export default function Field(){
         // call api for another set of words with updated size
         await fetchWords()
         
+        
     }
 
 
@@ -147,17 +148,23 @@ export default function Field(){
             inputRef.current[(words.length * words.length) - 1].blur()
             inputRef.current[refIndex].value = event.target.value.toUpperCase()
             
-            // if(!error){
-            //     round = round +1
-            //     console.log('end of round')                
-            //     if(round === size){
-            //         round = 0
-            //         setSize(size+1);  
-            //     }
-
-            //     updateLevel()
+            if(!error){
+                setRound(round +1)
+                firstIndex = 0
+                console.log('end of round')
+                if(round === size){
+                    setRound(0)
+                    setSize(size+1);
+                      
+                }
+                setWords()
+                updateLevel()
                 
-            // }
+                console.log("refIndex:" + refIndex + " and firstIndex:" + firstIndex)
+                console.log("inputRef" + inputRef.length)
+                
+                
+            }
         }
 
         if(inputValue != words[checkWordIndex][checkLetterIndex]){
@@ -183,7 +190,7 @@ export default function Field(){
         <div className="card flex-col justify-center-safe gap-2 j lg:h-1/2 md:w-150 w-full  h-1/3">
             <p>level : {size * round}</p>
             {             
-                words.map((singleWord, singleWordIndex)=>{
+                words?.map((singleWord, singleWordIndex)=>{
                     
                     return(
                         <div key={singleWordIndex}>
@@ -202,6 +209,7 @@ export default function Field(){
                                         wordindex = {`${singleWordIndex}-${index}`}
                                         onChange={handleChange}
                                         disabled={true}
+                                        
                                         
 
                     
