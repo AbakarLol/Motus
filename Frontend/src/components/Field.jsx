@@ -7,12 +7,13 @@ export default function Field(){
     const [words, setWords] = useState([]);
     // const [inputValue, setInputValue] = useState("");
     const inputRef = useRef([]);
-    const [size, setSize] = useState(3)
+    // const [size, setSize] = useState(3)
     const [backspacePressed, setBackspace] = useState(false)
     const [error, setErrors] = useState(false)
     const [round, setRound] = useState(1)
     // const [firstIndex, setFirstIndex] = useState(0)
     let firstIndex = 0
+    let size = 3
     
 
 
@@ -148,13 +149,14 @@ export default function Field(){
             inputRef.current[refIndex].value = event.target.value.toUpperCase()
             
             if(!error){
-                setRound(round +1)
+                setRound(round + 1)
                 firstIndex = 0
                 lettersIndex = 0
                 console.log('end of round')
                 if(round === size){
-                    setRound(0)
-                    setSize(size+1);
+                    setRound(0) 
+                    size = size +1
+                    console.log(size)          
                       
                 }
                 await setWords()                                            // the words state should be cleaned in order to reinitialize and rerender the compenent with empty inputs 
@@ -164,7 +166,7 @@ export default function Field(){
                 
                 console.log("refIndex:" + refIndex + " and firstIndex:" + firstIndex)
                 console.log("inputRef: " + inputRef.current.length)
-                console.log("letterIndex: " + lettersIndex)
+                console.log("size: " + size)
                 return
                 
                 
