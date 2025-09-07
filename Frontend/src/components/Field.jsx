@@ -111,11 +111,10 @@ export default function Field(){
         // call api for another set of words with updated size
         await fetchWords()
         
-        
     }
 
 
-    function handleChange(event){
+   async function handleChange(event){
         
         const [, wordIndex] = event.target.name.split("-");
         let refIndex = parseInt(wordIndex, 10);
@@ -151,17 +150,22 @@ export default function Field(){
             if(!error){
                 setRound(round +1)
                 firstIndex = 0
+                lettersIndex = 0
                 console.log('end of round')
                 if(round === size){
                     setRound(0)
                     setSize(size+1);
                       
                 }
-                setWords()
-                updateLevel()
+                await setWords()                                            // the words state should be cleaned in order to reinitialize and rerender the compenent with empty inputs 
+                inputRef.current = []                                       // the Ref that track the inputs should be cleaned to track the new inputs rendered to compare with the right letters this why it should wait for the words reintialisation
+                updateLevel()                                               // level update function should wait for the empty words reinitialization to finish
+                
                 
                 console.log("refIndex:" + refIndex + " and firstIndex:" + firstIndex)
-                console.log("inputRef" + inputRef.length)
+                console.log("inputRef: " + inputRef.current.length)
+                console.log("letterIndex: " + lettersIndex)
+                return
                 
                 
             }
