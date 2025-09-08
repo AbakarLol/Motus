@@ -7,13 +7,12 @@ export default function Field(){
     const [words, setWords] = useState([]);
     // const [inputValue, setInputValue] = useState("");
     const inputRef = useRef([]);
-    // const [size, setSize] = useState(3)
+    const [size, setSize] = useState(3)
     const [backspacePressed, setBackspace] = useState(false)
     const [error, setErrors] = useState(false)
     const [round, setRound] = useState(1)
     // const [firstIndex, setFirstIndex] = useState(0)
     let firstIndex = 0
-    let size = 3
     
 
 
@@ -75,6 +74,21 @@ export default function Field(){
     }, [words])
 
 
+    useEffect(() => {
+
+        const init = async ()=>{
+            if(size > 3){
+                await setWords()                                            // the words state should be cleaned in order to reinitialize and rerender the compenent with empty inputs 
+                inputRef.current = []                                       // the Ref that track the inputs should be cleaned to track the new inputs rendered to compare with the right letters this why it should wait for the words reintialisation
+                updateLevel()
+            }
+            
+        }
+
+        init()
+
+    }, [size])
+
 
     function isIn(word, letter){
         let found = false
@@ -134,10 +148,11 @@ export default function Field(){
             
             inputRef.current[refIndex].value = inputValue.toUpperCase()
             
-            if (((refIndex + 1 ) % size ) === 0){  // preventing that the next input will be a new word by calculating the modulo of the next index (refIndex + 1) by the size of the words
-                firstIndex = refIndex +1          // first index here mean the index of the hint or the first letter of the word to guess
+            if (((refIndex + 1 ) % size ) === 0){                   // preventing that the next input will be a new word by calculating the modulo of the next index (refIndex + 1) by the size of the words
+                console.log("size:" + size)
+                firstIndex = refIndex +1                            // first index here mean the index of the hint or the first letter of the word to guess
                 console.log("word end")            
-                giveFirstHint(checkWordIndex +1, 0) // checkwordIndex and refIndex are still pointed in the last letter of the preview onchange we go the the next words that why the +1 and the first hint are always the first letter of the word which is located on [wordIndex][0]
+                giveFirstHint(checkWordIndex +1, 0)                 // checkwordIndex and refIndex are still pointed in the last letter of the preview onchange we go the the next words that why the +1 and the first hint are always the first letter of the word which is located on [wordIndex][0]
                 inputRef.current[firstIndex].blur()
             }
             
@@ -151,22 +166,29 @@ export default function Field(){
             if(!error){
                 setRound(round + 1)
                 firstIndex = 0
+                refIndex = 0
                 lettersIndex = 0
                 console.log('end of round')
                 if(round === size){
                     setRound(0) 
-                    size = size +1
-                    console.log(size)          
-                      
-                }
-                await setWords()                                            // the words state should be cleaned in order to reinitialize and rerender the compenent with empty inputs 
-                inputRef.current = []                                       // the Ref that track the inputs should be cleaned to track the new inputs rendered to compare with the right letters this why it should wait for the words reintialisation
-                updateLevel()                                               // level update function should wait for the empty words reinitialization to finish
+                    setSize((prev) => {
+                        const newSize = prev + 1
+                        console.log("newSize:" + newSize)
+                        return newSize
+                    })
+                    setWords()
+            
+
+                }else{
+                    await setWords()                                            // the words state should be cleaned in order to reinitialize and rerender the compenent with empty inputs 
+                    inputRef.current = []                                       // the Ref that track the inputs should be cleaned to track the new inputs rendered to compare with the right letters this why it should wait for the words reintialisation
+                    updateLevel()                                               //  level update function should wait for the empty words reinitialization to finish
+                } 
+                                                             
                 
                 
                 console.log("refIndex:" + refIndex + " and firstIndex:" + firstIndex)
                 console.log("inputRef: " + inputRef.current.length)
-                console.log("size: " + size)
                 return
                 
                 
