@@ -9,7 +9,7 @@ export default function Field(){
     const inputRef = useRef([]);
     const [size, setSize] = useState(3)
     const [backspacePressed, setBackspace] = useState(false)
-    const [error, setErrors] = useState(false)
+    const [error, setErrors] = useState(true)
     const [round, setRound] = useState(1)
     // const [firstIndex, setFirstIndex] = useState(0)
     let firstIndex = 0
@@ -108,6 +108,7 @@ export default function Field(){
         inputRef.current[refIndex].addEventListener('keydown', (event)=> {
                 if(event.key === 'Backspace'){
                     setBackspace(true)          // Backpased tracked by this state if it is pressed then this state turn to true otherwise it is false
+                    
                 }
                 
             })
@@ -201,10 +202,10 @@ export default function Field(){
             }else{
                 inputRef.current[refIndex].className = "bg-red-400 letter-input m-1"
             }
-            setErrors(true)      
+            setErrors(false)      
         }else{ 
             inputRef.current[refIndex].className = 'letter-input m-1'
-            setErrors(false)
+            setErrors(true)
         }
        
 
