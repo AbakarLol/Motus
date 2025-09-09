@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState, use } from "react"
+import { useRef, useEffect, useState} from "react"
 import axios from 'axios';
 
 export default function Field(){
@@ -9,7 +9,7 @@ export default function Field(){
     const inputRef = useRef([]);
     const [size, setSize] = useState(3)
     const [backspacePressed, setBackspace] = useState(false)
-    const [error, setErrors] = useState(true)
+    const [error, setErrors] = useState([])
     const [round, setRound] = useState(1)
     // const [firstIndex, setFirstIndex] = useState(0)
     let firstIndex = 0
@@ -109,8 +109,7 @@ export default function Field(){
                 if(event.key === 'Backspace'){
                     setBackspace(true)          // Backpased tracked by this state if it is pressed then this state turn to true otherwise it is false
                     
-                }
-                
+                }    
             })
 
             if(backspacePressed){
@@ -163,11 +162,11 @@ export default function Field(){
             // endOfIndex.blur()
             inputRef.current[(words.length * words.length) - 1].blur()
             inputRef.current[refIndex].value = event.target.value.toUpperCase()
+               
             
             if(!error){
                 setRound(round + 1)
                 firstIndex = 0
-                refIndex = 0
                 lettersIndex = 0
                 console.log('end of round')
                 if(round === size){
@@ -189,7 +188,7 @@ export default function Field(){
                 
                 
                 console.log("refIndex:" + refIndex + " and firstIndex:" + firstIndex)
-                console.log("inputRef: " + inputRef.current.length)
+                console.log("inputRef: " + inputRef.current.length)       
                 return
                 
                 
@@ -202,10 +201,11 @@ export default function Field(){
             }else{
                 inputRef.current[refIndex].className = "bg-red-400 letter-input m-1"
             }
-            setErrors(false)      
+            setErrors(true)      
         }else{ 
             inputRef.current[refIndex].className = 'letter-input m-1'
-            setErrors(true)
+            setErrors(false)
+            
         }
        
 
