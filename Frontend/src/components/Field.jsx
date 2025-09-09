@@ -9,7 +9,7 @@ export default function Field(){
     const inputRef = useRef([]);
     const [size, setSize] = useState(3)
     const [backspacePressed, setBackspace] = useState(false)
-    const [error, setErrors] = useState([])
+    const [error, setErrors] = useState(true)
     const [round, setRound] = useState(1)
     // const [firstIndex, setFirstIndex] = useState(0)
     let firstIndex = 0
@@ -204,8 +204,7 @@ export default function Field(){
             setErrors(true)      
         }else{ 
             inputRef.current[refIndex].className = 'letter-input m-1'
-            setErrors(false)
-            
+            setErrors(false)   
         }
        
 
