@@ -9,7 +9,7 @@ export default function Field(){
     const inputRef = useRef([]);
     const [size, setSize] = useState(3)
     const [backspacePressed, setBackspace] = useState(false)
-    const [error, setErrors] = useState(false)
+    const [errors, setErrors] = useState(false)
     const [round, setRound] = useState(1)
     // const [firstIndex, setFirstIndex] = useState(0)
     let firstIndex = 0
@@ -91,6 +91,17 @@ export default function Field(){
     }, [size])
 
 
+    // useEffect(() => {
+
+    //     const init = async () => {
+                
+    // }
+
+    // init()
+
+    // }, [errors] )
+
+
     function isIn(word, letter){
         let found = false
         for (let i = 0; i<= word.length; i++){
@@ -130,7 +141,7 @@ export default function Field(){
     }
 
     function checkAllInputsCorrect(){
-        const numberOfInput = (words.length * words.length) - 1;
+        const numberOfInput = (words.length * words.length) ;
         var isAllCorrect = true
         for(let i=0; i<numberOfInput; i++ ){
             if((inputRef.current[i].getAttribute("correct") === "false")){
@@ -138,7 +149,6 @@ export default function Field(){
                 console.log( "check input number " + i  + " valeur: " + inputRef.current[i].getAttribute("correct"))
             }
         }
-        
         return isAllCorrect
     }
 
@@ -176,39 +186,42 @@ export default function Field(){
             // endOfIndex.blur()
             inputRef.current[(words.length * words.length) - 1].blur()
             inputRef.current[refIndex].value = event.target.value.toUpperCase()
-               
-            
-            if(checkAllInputsCorrect()){
-                setRound(round + 1)
-                firstIndex = 0
-                lettersIndex = 0
-                console.log('end of round')
-                if(round === size){
-                    setRound(0) 
-                    setSize((prev) => {
-                        const newSize = prev + 1
-                        console.log("newSize:" + newSize)
-                        return newSize
-                    })
-                    setWords()
             
 
-                }else{
-                    await setWords()                                            // the words state should be cleaned in order to reinitialize and rerender the compenent with empty inputs 
-                    inputRef.current = []                                       // the Ref that track the inputs should be cleaned to track the new inputs rendered to compare with the right letters this why it should wait for the words reintialisation
-                    updateLevel()                                               //  level update function should wait for the empty words reinitialization to finish
-                } 
+            
+            
+            // if((checkAllInputsCorrect())){
+            //     setRound(round + 1)
+            //     firstIndex = 0
+            //     lettersIndex = 0
+            //     console.log('end of round')
+            //     if(round === size){
+            //         setRound(0) 
+            //         setSize((prev) => {
+            //             const newSize = prev + 1
+            //             console.log("newSize:" + newSize)
+            //             return newSize
+            //         })
+            //         setWords()
+            
+
+            //     }else{
+            //         await setWords()                                            // the words state should be cleaned in order to reinitialize and rerender the compenent with empty inputs 
+            //         inputRef.current = []                                       // the Ref that track the inputs should be cleaned to track the new inputs rendered to compare with the right letters this why it should wait for the words reintialisation
+            //         updateLevel()                                               //  level update function should wait for the empty words reinitialization to finish
+            //     } 
                                                              
                 
                 
-                console.log("refIndex:" + refIndex + " and firstIndex:" + firstIndex)
-                console.log("inputRef: " + inputRef.current.length)       
-                return
+            //     console.log("refIndex:" + refIndex + " and firstIndex:" + firstIndex)
+            //     console.log("inputRef: " + inputRef.current.length)       
+            //     return
                 
                 
-            }
+            // }
         }
 
+        
         if(inputValue != words[checkWordIndex][checkLetterIndex]){
             if(isIn(words[checkWordIndex], inputValue)){
                 inputRef.current[refIndex].className = "rounded letter-input  m-1 bg-[radial-gradient(circle_at_center,rgba(250,204,21,1)_70%,rgba(96,165,250,1)_71%)]"
@@ -222,6 +235,40 @@ export default function Field(){
             inputRef.current[refIndex].setAttribute("correct", "true"); 
              
         }
+
+
+        if(checkAllInputsCorrect()){
+
+            console.log('all inputs are corrects')
+
+            lettersIndex = 0 
+            firstIndex = 0
+            
+            // setErrors(checkAllInputsCorrect())
+
+            setRound(round + 1) 
+            
+                if(round === size){
+                    setRound(0) 
+                    setSize((prev) => {
+                        const newSize = prev + 1
+                        console.log("newSize:" + newSize)
+                        return newSize
+                    })
+                    setWords()
+                    inputRef.current = [] 
+            
+
+                }else{
+                    await setWords()                                            // the words state should be cleaned in order to reinitialize and rerender the compenent with empty inputs 
+                    inputRef.current = []                                       // the Ref that track the inputs should be cleaned to track the new inputs rendered to compare with the right letters this why it should wait for the words reintialisation
+                    updateLevel()                                               //  level update function should wait for the empty words reinitialization to finish
+                } 
+
+            
+
+        }
+        
        
 
     }
