@@ -9,7 +9,7 @@ export default function Field(){
     const inputRef = useRef([]);
     const [size, setSize] = useState(3)
     const [backspacePressed, setBackspace] = useState(false)
-    const [error, setErrors] = useState(true)
+    const [error, setErrors] = useState(false)
     const [round, setRound] = useState(1)
     // const [firstIndex, setFirstIndex] = useState(0)
     let firstIndex = 0
@@ -49,6 +49,7 @@ export default function Field(){
         firstLetter.value = await words[checkWordIndex][checkLetterIndex]
         handleAutoFocus(firstIndex)                                 // after giving the first hint the focus is in the next element but if the next element is in correcting state with Backspace keydown that mean we should stay focused in this element
         firstLetter.className = "bg-blue-600 letter-input m-1"
+        inputRef.current[firstIndex].setAttribute("correct", "true");   // this will change the correct atribute from false to true, its important to check and handle wrong guesses
     }
 
 
@@ -128,6 +129,19 @@ export default function Field(){
         
     }
 
+    function checkAllInputsCorrect(){
+        const numberOfInput = (words.length * words.length) - 1;
+        var isAllCorrect = true
+        for(let i=0; i<numberOfInput; i++ ){
+            if((inputRef.current[i].getAttribute("correct") === "false")){
+                isAllCorrect = false
+                console.log( "check input number " + i  + " valeur: " + inputRef.current[i].getAttribute("correct"))
+            }
+        }
+        
+        return isAllCorrect
+    }
+
 
    async function handleChange(event){
         
@@ -164,7 +178,7 @@ export default function Field(){
             inputRef.current[refIndex].value = event.target.value.toUpperCase()
                
             
-            if(!error){
+            if(checkAllInputsCorrect()){
                 setRound(round + 1)
                 firstIndex = 0
                 lettersIndex = 0
@@ -197,14 +211,16 @@ export default function Field(){
 
         if(inputValue != words[checkWordIndex][checkLetterIndex]){
             if(isIn(words[checkWordIndex], inputValue)){
-                inputRef.current[refIndex].className = "rounded letter-input  m-1 bg-[radial-gradient(circle_at_center,rgba(250,204,21,1)_70%,rgba(96,165,250,1)_71%)]" 
+                inputRef.current[refIndex].className = "rounded letter-input  m-1 bg-[radial-gradient(circle_at_center,rgba(250,204,21,1)_70%,rgba(96,165,250,1)_71%)]"
+                 
             }else{
                 inputRef.current[refIndex].className = "bg-red-400 letter-input m-1"
             }
-            setErrors(true)      
+            inputRef.current[refIndex].setAttribute("correct" ,"false");    
         }else{ 
             inputRef.current[refIndex].className = 'letter-input m-1'
-            setErrors(false)   
+            inputRef.current[refIndex].setAttribute("correct", "true"); 
+             
         }
        
 
@@ -237,6 +253,7 @@ export default function Field(){
                                         wordindex = {`${singleWordIndex}-${index}`}
                                         onChange={handleChange}
                                         disabled={true}
+                                        correct = "false"
                                         
                                         
 
