@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState} from "react"
 import axios from 'axios';
 
-export default function Field(){
+export default function Field({callBack}){
 
     const [words, setWords] = useState([]);
     // const [inputValue, setInputValue] = useState("");
@@ -13,6 +13,7 @@ export default function Field(){
     // const [firstIndex, setFirstIndex] = useState(0)
     let firstIndex = 0
     
+
 
 
 
@@ -147,7 +148,7 @@ export default function Field(){
 
 
 
-    
+
 
     async function updateLevel(){
         // call api for another set of words with updated size
@@ -283,7 +284,13 @@ export default function Field(){
                     await setWords()                                            // the words state should be cleaned in order to reinitialize and rerender the compenent with empty inputs 
                     inputRef.current = []                                       // the Ref that track the inputs should be cleaned to track the new inputs rendered to compare with the right letters this why it should wait for the words reintialisation
                     updateLevel()                                               //  level update function should wait for the empty words reinitialization to finish
-                } 
+                }
+                
+                callBack({
+                    score : size,
+                    niveau : round,
+                    record : size * round
+                })
 
             
 
