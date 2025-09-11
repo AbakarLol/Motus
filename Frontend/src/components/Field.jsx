@@ -3,7 +3,6 @@ import axios from 'axios';
 
 export default function Field(){
 
-    
     const [words, setWords] = useState([]);
     // const [inputValue, setInputValue] = useState("");
     const inputRef = useRef([]);
@@ -39,6 +38,9 @@ export default function Field(){
         
     }
 
+
+
+
     async function giveFirstHint(checkWordIndex, checkLetterIndex) {
         if(firstIndex == 0){
             checkWordIndex = 0 
@@ -68,11 +70,16 @@ export default function Field(){
 
 
 
+
+
     useEffect(()=>{
         if(words && words.length > 0){
             giveFirstHint()
         }
     }, [words])
+
+
+
 
 
     useEffect(() => {
@@ -102,6 +109,9 @@ export default function Field(){
     // }, [errors] )
 
 
+
+
+
     function isIn(word, letter){
         let found = false
         for (let i = 0; i<= word.length; i++){
@@ -112,6 +122,8 @@ export default function Field(){
         return found
 
     }
+
+
 
 
 
@@ -134,11 +146,17 @@ export default function Field(){
     }
 
 
+
+    
+
     async function updateLevel(){
         // call api for another set of words with updated size
         await fetchWords()
         
     }
+
+
+
 
     function checkAllInputsCorrect(){
         const numberOfInput = (words.length * words.length) ;
@@ -146,11 +164,13 @@ export default function Field(){
         for(let i=0; i<numberOfInput; i++ ){
             if((inputRef.current[i].getAttribute("correct") === "false")){
                 isAllCorrect = false
-                console.log( "check input number " + i  + " valeur: " + inputRef.current[i].getAttribute("correct"))
             }
         }
         return isAllCorrect
     }
+
+
+
 
 
    async function handleChange(event){
