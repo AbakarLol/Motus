@@ -19,25 +19,25 @@ body{
         @apply flex justify-around items-center  bg-amber-50 rounded-2xl shadow-xl/40
     }
     .main{
-        @apply flex flex-col items-center justify-start gap-8 h-screen w-full p-5
+        @apply flex flex-col items-center justify-start gap-6 sm:gap-8 h-screen w-full p-1 sm:p-5
     }
     .scores-label {
         @apply flex justify-between items-end gap-1
     }
     .scores-value{
-        @apply text-5xl text-center font-bold
+        @apply text-2xl text-center font-bold
     }
     .letter-input{
-        @apply bg-blue-400 border-none h-14 w-14 text-white text-4xl font-bold text-center rounded-b-sm 
+        @apply bg-blue-400 border-none h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12 text-white text-2xl  sm:text-3xl  font-bold text-center rounded-b-sm 
     }
 }
 
 @layer base{
     h1{
-        @apply text-5xl font-bold text-amber-50 text-center
+        @apply text-3xl font-bold text-amber-50 text-center
     }
      h2{
-        @apply text-3xl  text-amber-50
+        @apply text-2xl  text-amber-50
     }
 }
 
