@@ -8,17 +8,17 @@ export default function Board(props){
     
 
     return(
-        <div className="card md:h-1/12 lg:h-1/7 h-1/5 w-full ">
+        <div className="card md:h-1/12 lg:h-1/7 h-1/8 w-full ">
             <div className='scores'>
-                <div className ="scores-label" ><EmojiEventsIcon fontSize='large' className='text-amber-400 text-3xl' /> Score:</div>
+                <div className ="scores-label" ><EmojiEventsIcon  className='text-amber-400 md:text-xl' /> Score:</div>
                 <div className='scores-value'> {props.scoreData.score} </div>                
             </div>         
             <div className='scores' >
-                <div className ="scores-label"  > <StairsIcon fontSize='large' className='text-blue-400 text-3xl' /> Level: </div>
+                <div className ="scores-label"  > <StairsIcon  className='text-blue-400 ' /> Level: </div>
                 <div className='scores-value' >{props.scoreData.niveau}</div>
             </div>
             <div className='scores' >
-                <div className ="scores-label" > <BarChartIcon fontSize='large' className='text-red-400 text-3xl' /> High Score: </div>
+                <div className ="scores-label" > <BarChartIcon className='text-red-400 font-' /> High Score: </div>
                 <div className='scores-value'>{props.scoreData.record}</div>
             </div>
 
