@@ -8,7 +8,7 @@ export default function Board(props){
     
 
     return(
-        <div className="card md:h-1/12 lg:h-1/7 h-1/8 w-full ">
+        <div className="card  lg:h-1/7 h-1/8 w-full ">
             <div className='scores'>
                 <div className ="scores-label" ><EmojiEventsIcon  className='text-amber-400 md:text-xl' /> Score:</div>
                 <div className='scores-value'> {props.scoreData.score} </div>                
