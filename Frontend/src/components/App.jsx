@@ -27,7 +27,6 @@ function App() {
       <Header />
       <Board scoreData = {scoreData} />
       <Field callBack = {callBack} />
-      <Button />
       <Footer />
     </div>
     

@@ -305,7 +305,7 @@ export default function Field({callBack}){
     
     return(
         
-        <div className="card flex-col justify-center-safe gap-0.25 sm:gap-0.5 md:h-1/2 md:w-150 w-full h-1/4">
+        <div className="card flex-col justify-center-safe gap-0.25 sm:gap-0.5 md:h-150 md:w-150 w-full h-1/2">
            
             {             
                 words?.map((singleWord, singleWordIndex)=>{
