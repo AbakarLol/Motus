@@ -10,9 +10,9 @@ import { useState } from "react"
 function App() {
 
   const [scoreData, setData] = useState({
-    score : 3,
+    score : 0,
     niveau : 0,
-    record : 3
+    record : 0
   })
 
   const callBack = (value) => {

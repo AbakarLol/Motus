@@ -287,7 +287,7 @@ export default function Field({callBack}){
                 }
                 
                 callBack({
-                    score : size,
+                    score : size%3,
                     niveau : round,
                     record : size * round
                 })
