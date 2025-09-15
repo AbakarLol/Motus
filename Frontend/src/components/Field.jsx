@@ -8,7 +8,7 @@ export default function Field({callBack}){
     const inputRef = useRef([]);
     const [size, setSize] = useState(3)
     const [backspacePressed, setBackspace] = useState(false)
-    const [errors, setErrors] = useState(false)
+    const [errors, setErrors] = useState(6)
     const [round, setRound] = useState(1)
     // const [firstIndex, setFirstIndex] = useState(0)
     let firstIndex = 0
@@ -133,7 +133,9 @@ export default function Field({callBack}){
         inputRef.current[refIndex].addEventListener('keydown', (event)=> {
                 if(event.key === 'Backspace'){
                     setBackspace(true)          // Backpased tracked by this state if it is pressed then this state turn to true otherwise it is false
-                    
+                    setErrors((prev) => {
+                        return prev +1; 
+                     })
                 }    
             })
 
@@ -250,6 +252,9 @@ export default function Field({callBack}){
             }else{
                 inputRef.current[refIndex].className = "bg-red-400 letter-input m-1"
             }
+            setErrors((prev) => {
+                return prev - 1; 
+            })
             inputRef.current[refIndex].setAttribute("correct" ,"false");    
         }else{ 
             inputRef.current[refIndex].className = 'letter-input m-1'
@@ -287,9 +292,9 @@ export default function Field({callBack}){
                 }
                 
                 callBack({
-                    score : size%3,
-                    niveau : round,
-                    record : size * round
+                    score : 1,
+                    niveau : 1,
+                    record : 1
                 })
 
             
@@ -306,12 +311,13 @@ export default function Field({callBack}){
     return(
         
         <div className="card flex-col justify-center-safe gap-0.25 sm:gap-0.5 md:h-150 md:w-150 w-full h-1/2">
-           
+           <p>attemps : {errors}</p>
             {             
                 words?.map((singleWord, singleWordIndex)=>{
                     
                     return(
                         <div key={singleWordIndex}>
+
                             {
                                
                                 words[singleWordIndex].map((letter, index) => { 

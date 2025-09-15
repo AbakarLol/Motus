@@ -16,8 +16,12 @@ function App() {
   })
 
   const callBack = (value) => {
-    setData( () => {
-      return value
+    setData( (prev) => {
+      return {
+        score : prev.score + value.score,
+        niveau : prev.niveau + value.niveau,
+        record : prev.record + value.record
+      }
     } )
   }
   
