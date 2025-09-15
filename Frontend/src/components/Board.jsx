@@ -14,11 +14,11 @@ export default function Board(props){
                 <div className='scores-value'> {props.scoreData.score} </div>                
             </div>         
             <div className='scores' >
-                <div className ="scores-label"  > <StairsIcon  className='text-blue-400 ' /> Level: </div>
+                <div className ="scores-label"  > <StairsIcon  className='text-blue-400 ' /> Niveau: </div>
                 <div className='scores-value' >{props.scoreData.niveau}</div>
             </div>
             <div className='scores' >
-                <div className ="scores-label" > <BarChartIcon className='text-red-400 font-' /> High Score: </div>
+                <div className ="scores-label" > <BarChartIcon className='text-red-400 font-' /> Marge: </div>
                 <div className='scores-value'>{props.scoreData.record}</div>
             </div>
 

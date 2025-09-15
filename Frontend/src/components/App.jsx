@@ -12,7 +12,7 @@ function App() {
   const [scoreData, setData] = useState({
     score : 0,
     niveau : 0,
-    record : 0
+    record : 6
   })
 
   const callBack = (value) => {
@@ -20,7 +20,7 @@ function App() {
       return {
         score : prev.score + value.score,
         niveau : prev.niveau + value.niveau,
-        record : prev.record + value.record
+        record : value.record
       }
     } )
   }

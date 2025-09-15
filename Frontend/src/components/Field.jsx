@@ -98,6 +98,14 @@ export default function Field({callBack}){
 
     }, [size])
 
+    useEffect( () => {
+        callBack({
+            score : 0,
+            niveau : 0,
+            record : errors
+        })
+    }, [errors])
+
 
     // useEffect(() => {
 
@@ -136,6 +144,7 @@ export default function Field({callBack}){
                     setErrors((prev) => {
                         return prev +1; 
                      })
+                     
                 }    
             })
 
@@ -255,6 +264,7 @@ export default function Field({callBack}){
             setErrors((prev) => {
                 return prev - 1; 
             })
+
             inputRef.current[refIndex].setAttribute("correct" ,"false");    
         }else{ 
             inputRef.current[refIndex].className = 'letter-input m-1'
@@ -294,7 +304,7 @@ export default function Field({callBack}){
                 callBack({
                     score : 1,
                     niveau : 1,
-                    record : 1
+                    record : 6
                 })
 
             
@@ -311,7 +321,6 @@ export default function Field({callBack}){
     return(
         
         <div className="card flex-col justify-center-safe gap-0.25 sm:gap-0.5 md:h-150 md:w-150 w-full h-1/2">
-           <p>attemps : {errors}</p>
             {             
                 words?.map((singleWord, singleWordIndex)=>{
                     
