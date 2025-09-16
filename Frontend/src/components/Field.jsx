@@ -96,15 +96,22 @@ export default function Field({callBack}){
 
         init()
 
+        callBack({
+            score : size,
+            niveau : 0,
+            record : 6
+        })
+
     }, [size])
 
     useEffect( () => {
         callBack({
-            score : 0,
+            score : size,
             niveau : 0,
             record : errors
         })
     }, [errors])
+
 
 
     // useEffect(() => {
@@ -302,7 +309,7 @@ export default function Field({callBack}){
                 }
                 
                 callBack({
-                    score : 1,
+                    score : size,
                     niveau : 1,
                     record : 6
                 })

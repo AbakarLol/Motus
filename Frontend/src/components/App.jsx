@@ -10,7 +10,7 @@ import { useState } from "react"
 function App() {
 
   const [scoreData, setData] = useState({
-    score : 0,
+    score : 3,
     niveau : 0,
     record : 6
   })
@@ -18,7 +18,7 @@ function App() {
   const callBack = (value) => {
     setData( (prev) => {
       return {
-        score : prev.score + value.score,
+        score : value.score,
         niveau : prev.niveau + value.niveau,
         record : value.record
       }
