@@ -86,30 +86,41 @@ export default function Field({callBack}){
     useEffect(() => {
 
         const init = async ()=>{
-            if(size > 3){
+            if(size >= 3){
                 await setWords()                                            // the words state should be cleaned in order to reinitialize and rerender the compenent with empty inputs 
                 inputRef.current = []                                       // the Ref that track the inputs should be cleaned to track the new inputs rendered to compare with the right letters this why it should wait for the words reintialisation
                 updateLevel()
-            }
-            
+            }            
         }
 
         init()
 
+        // update size to show on the bord the grid size*size
         callBack({
             score : size,
             niveau : 0,
             record : 6
         })
 
+
     }, [size])
 
+
+
+
     useEffect( () => {
+
+        if(errors === 0){
+            window.location.reload();
+        }
+
         callBack({
             score : size,
             niveau : 0,
             record : errors
         })
+
+
     }, [errors])
 
 
