@@ -1,5 +1,8 @@
 import { useRef, useEffect, useState} from "react"
 import axios from 'axios';
+import useSound from "use-sound";
+import wonSound from "/sounds/won.wav";
+import lostSound from "/sounds/lost.wav"
 
 export default function Field({callBack}){
 
@@ -12,7 +15,16 @@ export default function Field({callBack}){
     const [round, setRound] = useState(1)
     // const [firstIndex, setFirstIndex] = useState(0)
     let firstIndex = 0
+
+
+    // create sound object to play when users won or lost guesses
+    const [playWonSound, {stop : stopWonSound}] = useSound(wonSound  , {
+        volume: 0.5,
+    })
     
+    const [playLostSound, {stop : stopLostSound}] = useSound(lostSound, {
+        volume: 0.5
+    })
 
 
 
@@ -279,6 +291,7 @@ export default function Field({callBack}){
             }else{
                 inputRef.current[refIndex].className = "bg-red-400 letter-input m-1"
             }
+            !backspacePressed? playLostSound() : ""
             setErrors((prev) => {
                 return prev - 1; 
             })
@@ -287,7 +300,7 @@ export default function Field({callBack}){
         }else{ 
             inputRef.current[refIndex].className = 'letter-input m-1'
             inputRef.current[refIndex].setAttribute("correct", "true"); 
-             
+            playWonSound()
         }
 
 
