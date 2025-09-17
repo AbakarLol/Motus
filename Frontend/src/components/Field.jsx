@@ -3,6 +3,7 @@ import axios from 'axios';
 import useSound from "use-sound";
 import wonSound from "/sounds/won.wav";
 import lostSound from "/sounds/lost.wav"
+import gameOverSound from "/sounds/game over.mp3"
 
 export default function Field({callBack}){
 
@@ -26,6 +27,9 @@ export default function Field({callBack}){
         volume: 0.5
     })
 
+    const [playGameOverSound, {stop : stopGameOverSound }] = useSound(gameOverSound, {
+        volume: 0.8
+    })
 
 
 
@@ -123,15 +127,25 @@ export default function Field({callBack}){
     useEffect( () => {
 
         if(errors === 0){
-            window.location.reload();
-        }
 
-        callBack({
+            playGameOverSound()
+
+            setTimeout(()=>{
+                window.location.reload()
+            }, 2000)
+            
+            
+            
+        }else{
+            callBack({
             score : size,
             niveau : 0,
             record : errors
         })
 
+        }
+
+        
 
     }, [errors])
 
