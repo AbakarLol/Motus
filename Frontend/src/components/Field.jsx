@@ -128,6 +128,8 @@ export default function Field({callBack, setDialog}){
 
         if(errors === 0){
 
+            document.querySelector("body").classList.add("backdrop")
+
             setDialog(true)
 
             playGameOverSound()
