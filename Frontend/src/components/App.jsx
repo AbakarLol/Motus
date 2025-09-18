@@ -4,6 +4,7 @@ import Board from "./Board"
 import Field from "./Field"
 import Button from "./Button"
 import { useState } from "react"
+import Dialog from "./Dialog"
 
 
 
@@ -15,6 +16,8 @@ function App() {
     record : 6
   })
 
+  const [openDialog, setOpenDialog] = useState(false)
+
   const callBack = (value) => {
     setData( (prev) => {
       return {
@@ -25,12 +28,23 @@ function App() {
     } )
   }
   
+  const setDialog = (value) => {
+
+    setOpenDialog(() => {
+      return value
+    })
+
+  }
 
   return (
     <div className="main">
       <Header />
       <Board scoreData = {scoreData} />
-      <Field callBack = {callBack} />
+      <Field 
+        callBack = {callBack} 
+        setDialog = {setDialog}
+       />
+      {openDialog && <Dialog  />}
       <Footer />
     </div>
     

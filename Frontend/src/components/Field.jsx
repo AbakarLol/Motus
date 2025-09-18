@@ -5,7 +5,7 @@ import wonSound from "/sounds/won.wav";
 import lostSound from "/sounds/lost.wav"
 import gameOverSound from "/sounds/game over.mp3"
 
-export default function Field({callBack}){
+export default function Field({callBack, setDialog}){
 
     const [words, setWords] = useState([]);
     // const [inputValue, setInputValue] = useState("");
@@ -128,11 +128,13 @@ export default function Field({callBack}){
 
         if(errors === 0){
 
+            setDialog(true)
+
             playGameOverSound()
 
-            setTimeout(()=>{
-                window.location.reload()
-            }, 2000)
+            // setTimeout(()=>{
+            //     window.location.reload()
+            // }, 2000)
             
             
             
