@@ -1,18 +1,20 @@
 import denied from "/illustrations/denied.svg"
 import Button from "./Button"
+import gameOver from "/illustrations/game_13745471.png"
 
 
 export default function Dialog(){
     return(
         
-            
-            <div className="card absolute top-1/4 z-10 shadow-5xl flex flex-col justify-center align-center gap-2 h-120 w-120 dialog" >
-                <img src={denied} alt="denied illustration" className="h-60 w-60" />
+            <div className="fixed inset-0 bg-black/40 backdrop-blur-md z-50 flex items-center justify-center">
+            <div className="card absolute top-1/4 z-10 shadow-5xl flex flex-col justify-center items-center gap-4 h-100 w-100 dialog" >
+                <img src={gameOver} alt="denied illustration" className="h-50 w-50" />
                 
                 <div>
                     <h3> Vous avez expirez toutes les marges de tentative  </h3>
                 </div>
                 <Button />
+            </div>
             </div>
         
     )
