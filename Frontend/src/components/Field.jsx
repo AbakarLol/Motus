@@ -12,7 +12,7 @@ export default function Field({callBack, setDialog}){
     const inputRef = useRef([]);
     const [size, setSize] = useState(3)
     const [backspacePressed, setBackspace] = useState(false)
-    const [errors, setErrors] = useState(6)
+    const [attempts, setAttempts] = useState(6)
     const [round, setRound] = useState(1)
     // const [firstIndex, setFirstIndex] = useState(0)
     let firstIndex = 0
@@ -123,35 +123,27 @@ export default function Field({callBack, setDialog}){
 
 
 
-
+// handle when user expire all his given attemps
     useEffect( () => {
-
-        if(errors === 0){
-
-            document.querySelector("body").classList.add("backdrop")
+        // count the decreasing number of attemps accepted untill zero
+        if(attempts === 0){
 
             setDialog(true)
 
             playGameOverSound()
-
-            // setTimeout(()=>{
-            //     window.location.reload()
-            // }, 2000)
-            
-            
             
         }else{
             callBack({
             score : size,
             niveau : 0,
-            record : errors
+            record : attempts
         })
 
         }
 
         
 
-    }, [errors])
+    }, [attempts])
 
 
 
@@ -163,7 +155,7 @@ export default function Field({callBack, setDialog}){
 
     // init()
 
-    // }, [errors] )
+    // }, [attempts] )
 
 
 
@@ -189,7 +181,7 @@ export default function Field({callBack, setDialog}){
         inputRef.current[refIndex].addEventListener('keydown', (event)=> {
                 if(event.key === 'Backspace'){
                     setBackspace(true)          // Backpased tracked by this state if it is pressed then this state turn to true otherwise it is false
-                    setErrors((prev) => {
+                    setAttempts((prev) => {
                         return prev +1; 
                      })
                      
@@ -310,7 +302,7 @@ export default function Field({callBack, setDialog}){
                 inputRef.current[refIndex].className = "bg-red-400 letter-input m-1"
             }
             !backspacePressed? playLostSound() : ""
-            setErrors((prev) => {
+            setAttempts((prev) => {
                 return prev - 1; 
             })
 
@@ -329,7 +321,7 @@ export default function Field({callBack, setDialog}){
             lettersIndex = 0 
             firstIndex = 0
             
-            // setErrors(checkAllInputsCorrect())
+            // setAttempts(checkAllInputsCorrect())
 
             setRound(round + 1) 
             
