@@ -1,4 +1,3 @@
-import denied from "/illustrations/denied.svg"
 import Button from "./Button"
 import gameOver from "/illustrations/game_13745471.png"
 

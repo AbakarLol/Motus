@@ -139,9 +139,7 @@ export default function Field({callBack, setDialog}){
             record : attempts
         })
 
-        }
-
-        
+        }  
 
     }, [attempts])
 
@@ -160,7 +158,7 @@ export default function Field({callBack, setDialog}){
 
 
 
-
+// checking if a particular letter figure in the word
     function isIn(word, letter){
         let found = false
         for (let i = 0; i<= word.length; i++){
@@ -169,17 +167,16 @@ export default function Field({callBack, setDialog}){
             }
         }
         return found
-
     }
 
 
 
 
-
-    function handleAutoFocus(refIndex){         // Backpace erase the current element value but the element should be focused to wait for next value otherwise the next elment should be focused
+// whenever the first input is filled the focus handler shoul point and focus on the next automaticaly
+    function handleAutoFocus(refIndex){         
 
         inputRef.current[refIndex].addEventListener('keydown', (event)=> {
-                if(event.key === 'Backspace'){
+                if(event.key === 'Backspace'){  // Backpace erase the current element value but the element should be focused to wait for next value otherwise the next elment should be focused
                     setBackspace(true)          // Backpased tracked by this state if it is pressed then this state turn to true otherwise it is false
                     setAttempts((prev) => {
                         return prev +1; 
@@ -200,7 +197,7 @@ export default function Field({callBack, setDialog}){
 
 
 
-
+//update level go to the next level with other words to guess
     async function updateLevel(){
         // call api for another set of words with updated size
         await fetchWords()
@@ -209,7 +206,7 @@ export default function Field({callBack, setDialog}){
 
 
 
-
+// checking if the input value value entred is correct
     function checkAllInputsCorrect(){
         const numberOfInput = (words.length * words.length) ;
         var isAllCorrect = true

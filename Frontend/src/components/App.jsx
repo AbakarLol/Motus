@@ -2,7 +2,6 @@ import Footer from "./Footer"
 import Header from "./Header"
 import Board from "./Board"
 import Field from "./Field"
-import Button from "./Button"
 import { useState } from "react"
 import Dialog from "./Dialog"
 
