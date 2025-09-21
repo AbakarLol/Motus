@@ -176,8 +176,8 @@ export default function Field({callBack, setDialog}){
     function handleAutoFocus(refIndex){         
 
         inputRef.current[refIndex].addEventListener('keydown', (event)=> {
-                if(event.key === 'Backspace'){  // Backpace erase the current element value but the element should be focused to wait for next value otherwise the next elment should be focused
-                    setBackspace(true)          // Backpased tracked by this state if it is pressed then this state turn to true otherwise it is false
+                if(event.key === 'Backspace'){          // Backpace erase the current element value but the element should be focused to wait for next value otherwise the next elment should be focused
+                    setBackspace(true)                  // Backpased tracked by this state if it is pressed then this state turn to true otherwise it is false
                                          
                 }    
             })
@@ -197,8 +197,7 @@ export default function Field({callBack, setDialog}){
 //update level go to the next level with other words to guess
     async function updateLevel(){
         // call api for another set of words with updated size
-        await fetchWords()
-        
+        await fetchWords()        
     }
 
 
@@ -217,10 +216,8 @@ export default function Field({callBack, setDialog}){
 
 
 
-
-
-   async function handleChange(event){
-        
+// Handle any change for each input on focus mode
+   async function handleChange(event){        
         const [, wordIndex] = event.target.name.split("-");
         let refIndex = parseInt(wordIndex, 10);
         let [checkWordIndex, checkLetterIndex] = inputRef.current[refIndex].getAttribute("wordindex").split("-")
