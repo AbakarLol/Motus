@@ -10,9 +10,9 @@ import Dialog from "./Dialog"
 function App() {
 
   const [scoreData, setData] = useState({
-    score : 3,
+    grille : 3,
     niveau : 0,
-    record : 6
+    marge : 6
   })
 
   const [openDialog, setOpenDialog] = useState(false)
@@ -20,9 +20,9 @@ function App() {
   const callBack = (value) => {
     setData( (prev) => {
       return {
-        score : value.score,
+        grille : value.grille,
         niveau : prev.niveau + value.niveau,
-        record : value.record
+        marge : value.marge
       }
     } )
   }

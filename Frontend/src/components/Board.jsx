@@ -13,7 +13,7 @@ export default function Board(props){
         <div className="card  lg:h-1/7 h-1/8 w-full ">
             <div className='scores'>
                 <div className ="scores-label" ><GridViewIcon  className='text-amber-400 md:text-xl' /> Grille:</div>
-                <div className='scores-value'> {props.scoreData.score} x {props.scoreData.score}  </div>                
+                <div className='scores-value'> {props.scoreData.grille} x {props.scoreData.grille}  </div>                
             </div>         
             <div className='scores' >
                 <div className ="scores-label"  > <StairsIcon  className='text-blue-400 ' /> Niveau: </div>
@@ -21,7 +21,7 @@ export default function Board(props){
             </div>
             <div className='scores' >
                 <div className ="scores-label" > <DataSaverOnIcon className='text-red-400 font-' /> Marge: </div>
-                <div className='scores-value'>{props.scoreData.record}</div>
+                <div className='scores-value'>{props.scoreData.marge}</div>
             </div>
 
         </div>

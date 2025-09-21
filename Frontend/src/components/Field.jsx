@@ -113,9 +113,9 @@ export default function Field({callBack, setDialog}){
 
         // update size to show on the bord the grid size*size
         callBack({
-            score : size,
+            grille : size,
             niveau : 0,
-            record : 6
+            marge : 6
         })
 
 
@@ -134,9 +134,9 @@ export default function Field({callBack, setDialog}){
             
         }else{
             callBack({
-            score : size,
+            grille : size,
             niveau : 0,
-            record : attempts
+            marge : attempts
         })
 
         }  
@@ -178,10 +178,7 @@ export default function Field({callBack, setDialog}){
         inputRef.current[refIndex].addEventListener('keydown', (event)=> {
                 if(event.key === 'Backspace'){  // Backpace erase the current element value but the element should be focused to wait for next value otherwise the next elment should be focused
                     setBackspace(true)          // Backpased tracked by this state if it is pressed then this state turn to true otherwise it is false
-                    setAttempts((prev) => {
-                        return prev +1; 
-                     })
-                     
+                                         
                 }    
             })
 
@@ -298,10 +295,12 @@ export default function Field({callBack, setDialog}){
             }else{
                 inputRef.current[refIndex].className = "bg-red-400 letter-input m-1"
             }
-            !backspacePressed? playLostSound() : ""
-            setAttempts((prev) => {
+            if(!backspacePressed){        // In the case where there is a wrong guess and the backspace button is not pressed then we can play lost sound and decrease the number of attempts
+                playLostSound()
+                setAttempts((prev) => {
                 return prev - 1; 
             })
+            }
 
             inputRef.current[refIndex].setAttribute("correct" ,"false");    
         }else{ 
@@ -339,11 +338,11 @@ export default function Field({callBack, setDialog}){
                     updateLevel()                                               //  level update function should wait for the empty words reinitialization to finish
                 }
                 
-                callBack({
-                    score : size,
-                    niveau : 1,
-                    record : 6
-                })
+                // callBack({
+                //     score : size,
+                //     niveau : 1,
+                //     record : 1
+                // })
 
             
 
