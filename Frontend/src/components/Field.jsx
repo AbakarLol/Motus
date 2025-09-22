@@ -114,7 +114,7 @@ export default function Field({callBack, setDialog}){
         // update size to show on the bord the grid size*size
         callBack({
             grille : size,
-            niveau : 0,
+            niveau : 1,
             marge : 6
         })
 
@@ -230,7 +230,7 @@ export default function Field({callBack, setDialog}){
 
         if(refIndex < (words.length * words.length) - 1 ){
             
-            
+        
             handleAutoFocus(refIndex)
             
             inputRef.current[refIndex].value = inputValue.toUpperCase()
@@ -334,12 +334,14 @@ export default function Field({callBack, setDialog}){
                     inputRef.current = []                                       // the Ref that track the inputs should be cleaned to track the new inputs rendered to compare with the right letters this why it should wait for the words reintialisation
                     updateLevel()                                               //  level update function should wait for the empty words reinitialization to finish
                 }
+
+                setAttempts(6)
                 
-                // callBack({
-                //     score : size,
-                //     niveau : 1,
-                //     record : 1
-                // })
+                callBack({
+                    grille : size,
+                    niveau : 1,
+                    marge : attempts
+                })
 
             
 
