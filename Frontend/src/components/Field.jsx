@@ -245,10 +245,23 @@ export default function Field({callBack, setDialog}){
             
                  
         }else{
+
+            // Add event listener in this position because handleAutofocus function could not work on the last input therefore the backspace state neither 
+            //  this will dcrease the number of remain attempts even when the user press backspace to erase a wrong guess
+
+            inputRef.current[refIndex].addEventListener('keydown', (event)=> {
+                if(event.key === 'Backspace'){          // Backpace erase the current element value but the element should be focused to wait for next value otherwise the next elment should be focused
+                    setBackspace(true)                  // Backpased tracked by this state if it is pressed then this state turn to true otherwise it is false
+                                         
+                }    
+            })
+
             // const endOfIndex = document.querySelector(`Input[name="code-${refIndex}]"`);
             // endOfIndex.blur()
             inputRef.current[(words.length * words.length) - 1].blur()
             inputRef.current[refIndex].value = event.target.value.toUpperCase()
+            
+            
             
 
             
