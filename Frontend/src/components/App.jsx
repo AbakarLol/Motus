@@ -1,53 +1,16 @@
-import Footer from "./Footer"
-import Header from "./Header"
-import Board from "./Board"
-import Field from "./Field"
-import { useState } from "react"
-import Dialog from "./Dialog"
+import Auth from "./Auth";
+import Footer from "./Footer";
+import Game from "./Game";
+import Header from "./Header";
 
 
-
-function App() {
-
-  const [scoreData, setData] = useState({
-    grille : 3,
-    niveau : 0,
-    marge : 6
-  })
-
-  const [openDialog, setOpenDialog] = useState(false)
-
-  const callBack = (value) => {
-    setData( (prev) => {
-      return {
-        grille : value.grille,
-        niveau : prev.niveau + value.niveau,
-        marge : value.marge
-      }
-    } )
-  }
-  
-  const setDialog = (value) => {
-
-    setOpenDialog(() => {
-      return value
-    })
-
-  }
-
-  return (
-    <div className="main">
-      <Header />
-      <Board scoreData = {scoreData} />
-      <Field 
-        callBack = {callBack} 
-        setDialog = {setDialog}
-       />
-      {openDialog && <Dialog  />}
-      <Footer />
-    </div>
-    
+export default function App(){
+    return (
+        <div className="main">
+            <Header />
+            {/* <Game /> */}
+            <Auth />
+            <Footer />
+        </div>
     )
 }
-
-export default App
