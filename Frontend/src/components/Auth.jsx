@@ -8,7 +8,7 @@ export default function Auth(){
         passwordConfirmation : ""
     });
 
-    const [exist, setExist] = useState(true);
+    const [exist, setExist] = useState(false);
 
 function handleChange(event){
    const {name, value} = event.target;
@@ -27,8 +27,8 @@ async function handleSigningUP() {
 
 
     return(
-        <div className="flex justify-center items-center w-full ">
-            <div className="gradient card sm:w-110 h-130 w-80 flex flex-col justify-arround items-start px-3 sm:px-5 py-20 sm:rounded-2xl rounded-xl" >
+        <div className="flex justify-center items-center mt-10 w-full ">
+            <div className="gradient card sm:w-120 h-110 w-80 flex flex-col justify-arround items-start px-3 sm:px-4 py-15 sm:rounded-2xl rounded-xl" >
                 
                 <div className="w-full">
                     <label className="pl-1" htmlFor="">Username:</label>
