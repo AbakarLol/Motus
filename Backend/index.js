@@ -1,10 +1,17 @@
-import express from 'express'
-import env from "dotenv"
-import pg from 'pg'            
+import express from 'express';
+import env from "dotenv";
+import pg from 'pg';
+import bcrypt from "bcrypt"          
 
 
 const app = express();
-const db = pg;
+const db = new pg.Client({
+    database:'',
+    port:'',
+    host:"",
+    user:'',
+    password: ""
+});
 
 env.config()
 
