@@ -4,6 +4,7 @@ import pg from 'pg'
 
 
 const app = express();
+const db = pg;
 
 env.config()
 
