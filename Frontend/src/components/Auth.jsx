@@ -8,7 +8,7 @@ export default function Auth(){
         passwordConfirmation : ""
     });
 
-    const [exist, setExist] = useState(false);
+    const [exist, setExist] = useState(true);
 
 function handleChange(event){
    const {name, value} = event.target;
@@ -18,7 +18,11 @@ function handleChange(event){
 }
 
 async function handleClick(){
-    console.log(user);
+    const response = await axios.get("/localhost:3000/login/", {
+        username : user.username,
+        password : user.password
+    })
+    console.log(response);
 }
 
 async function handleSigningUP() {

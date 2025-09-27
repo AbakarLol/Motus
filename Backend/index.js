@@ -20,6 +20,10 @@ db.connect();
 
 const port = process.env.BACKEND_PORT;
 
+app.get("/login", (req, res) => {
+    const user = req.body.username
+    console.log(user);
+})
 
 app.listen(port, ()=>{
     console.log(`Server is working ${port}`);
