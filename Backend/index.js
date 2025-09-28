@@ -2,7 +2,8 @@ import express from 'express';
 import env from "dotenv";
 import pg from 'pg';
 import bcrypt from "bcrypt" 
-import bodyParser from 'body-parser';         
+import bodyParser from 'body-parser';    
+import cors from "cors"     
 
 
 const app = express();
@@ -21,10 +22,15 @@ db.connect();
 
 app.use(bodyParser.urlencoded({extended:false}));
 
+app.use(cors({
+    credentials: true
+}))
+
 const port = process.env.BACKEND_PORT;
 
 app.post("/login", (req, res) => {
-    console.log("hello world");
+    const user = req.body;
+    console.log(user);
 })
 
 app.listen(port, ()=>{
