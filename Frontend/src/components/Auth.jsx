@@ -18,7 +18,7 @@ function handleChange(event){
 }
 
 async function handleClick(){
-    const response = await axios.get("/localhost:3000/login/", {
+    const response = await axios.post("http://localhost:3000/login", {
         username : user.username,
         password : user.password
     })

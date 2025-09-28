@@ -1,7 +1,8 @@
 import express from 'express';
 import env from "dotenv";
 import pg from 'pg';
-import bcrypt from "bcrypt"          
+import bcrypt from "bcrypt" 
+import bodyParser from 'body-parser';         
 
 
 const app = express();
@@ -18,11 +19,12 @@ const db = new pg.Client({
 
 db.connect();
 
+app.use(bodyParser.urlencoded({extended:false}));
+
 const port = process.env.BACKEND_PORT;
 
-app.get("/login", (req, res) => {
-    const user = req.body.username
-    console.log(user);
+app.post("/login", (req, res) => {
+    console.log("hello world");
 })
 
 app.listen(port, ()=>{
