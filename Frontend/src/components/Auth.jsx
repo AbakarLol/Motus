@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from 'axios';
+import { paperClasses } from "@mui/material/Paper";
 
 export default function Auth(){
     const [user, setUser] = useState({
@@ -18,11 +19,17 @@ function handleChange(event){
 }
 
 async function handleClick(){
-    const response = await axios.post("http://localhost:3000/login", {
-        username : user.username,
-        password : user.password
+    try{
+        const response = await axios.post("http://localhost:3000/login", {
+        username: user.username,
+        password: user.password
     })
     console.log(response);
+    }
+    catch(error){
+        console.log(error);
+    }
+    
 }
 
 async function handleSigningUP() {

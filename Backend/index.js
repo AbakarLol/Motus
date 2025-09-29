@@ -20,17 +20,29 @@ const db = new pg.Client({
 
 db.connect();
 
-app.use(bodyParser.urlencoded({extended:false}));
 
 app.use(cors({
-    credentials: true
+    credentials: true,
+    origin: "http://localhost:5173"
 }))
 
 const port = process.env.BACKEND_PORT;
 
-app.post("/login", (req, res) => {
-    const user = req.body;
-    console.log(user);
+app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.json());
+
+app.post("/login",  async (req, res) => {
+    const {username, password} =  req.body;
+    try{
+        const response = await db.query("Select * from users where username = $1", [username]);
+        if(response.rows.length <= 0 ){
+            console.log('the username you enterred does not exist')
+        }else{
+            console.log(response.rows[0])
+        }
+    }catch(error){
+        console.log(error)
+    }
 })
 
 app.listen(port, ()=>{
