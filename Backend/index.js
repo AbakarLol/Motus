@@ -1,7 +1,7 @@
 import express from 'express';
 import env from "dotenv";
 import pg from 'pg';
-import bcrypt from "bcrypt" 
+import bcrypt, { hash } from "bcrypt" 
 import bodyParser from 'body-parser';    
 import cors from "cors"     
 
@@ -27,6 +27,7 @@ app.use(cors({
 }))
 
 const port = process.env.BACKEND_PORT;
+const saltRound = parseInt(process.env.HASH_SALTROUND);
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
@@ -38,11 +39,35 @@ app.post("/login",  async (req, res) => {
         if(response.rows.length <= 0 ){
             console.log('the username you enterred does not exist')
         }else{
-            console.log(response.rows[0])
+            const user = response.rows[0];
+            bcrypt.compare(password, user.password, (err, result) => {
+                if(err) console.log(err);
+                if(result){
+                    console.log("Authentication succed");
+                }else{
+                    console.log('Authentication failed');
+                }
+            })
         }
     }catch(error){
         console.log(error)
     }
+});
+
+
+app.post("/signup", async (req, res) => {
+    const {username, password} = req.body;
+    bcrypt.hash(password, saltRound, async (err, hash) => {
+        if(err) console.log(err);
+        try {
+            const response = await db.query('Insert into users (username, password) values ($1, $2) Returning *', [username, hash]);
+            console.log(response.rows[0])
+        } catch (error) {
+            console.log(error)
+        }
+
+    })
+    
 })
 
 app.listen(port, ()=>{

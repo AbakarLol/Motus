@@ -33,7 +33,21 @@ async function handleClick(){
 }
 
 async function handleSigningUP() {
-    console.log(user)
+    if(user.password === user.passwordConfirmation){
+        try {
+        const response = await axios.post("http://localhost:3000/signup", {
+            username : user.username,
+            password : user.password
+        })
+        console.log(response)
+        } catch (error) {
+            console.log(error)
+        }
+    }else{
+        console.log('confirm your password')
+    }
+    
+    
 }
 
 function handleExist(){
@@ -75,13 +89,13 @@ function handleExist(){
                 }   
                 {exist?
                 <div className="flex justify-center items-center flex-col text-center w-full mt-5">
-                    <p className="text-justify">Vous etes déja enrengistré alors, vous pouvez vous </p> 
-                    <button className="text-[#bc4e9c]" onClick={handleExist} >Connecté</button>
+                    <p className="text-justify" >Vous n'etes pas encore enrengistré alors, vous pouvez vous </p> 
+                     <button className="text-[#bc4e9c]" onClick={handleExist} >Enrégistrer</button>
                 </div>
                 :
                 <div className="flex justify-center items-center flex-col text-center w-full mt-5">
-                    <p className="text-justify" >Vous n'etes pas encore enrengistré alors, vous pouvez vous </p> 
-                    <button className="text-[#bc4e9c]" onClick={handleExist} >Enrengistré</button>
+                    <p className="text-justify">Si vous etes déja enrengistré alors, vous pouvez vous </p> 
+                    <button className="text-[#bc4e9c]" onClick={handleExist} >Connecter</button>
                 </div>
 
                 }
