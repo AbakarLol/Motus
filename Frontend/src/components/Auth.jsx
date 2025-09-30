@@ -1,8 +1,7 @@
 import { useState } from "react";
 import axios from 'axios';
-import { paperClasses } from "@mui/material/Paper";
 
-export default function Auth(){
+export default function Auth({callBack}){
     const [user, setUser] = useState({
         username : "",
         password : "",
@@ -10,6 +9,13 @@ export default function Auth(){
     });
 
     const [exist, setExist] = useState(true);
+
+    const [message, setMessage] = useState();
+
+    const [userFound, setFound] = useState();
+
+    const [isAuthSucceed, setAuthSucceed] = useState(false);
+
 
 function handleChange(event){
    const {name, value} = event.target;
@@ -24,7 +30,13 @@ async function handleClick(){
         username: user.username,
         password: user.password
     })
-    console.log(response);
+    const returnedData = response.data;
+    setMessage(<p className="text-red-400" > {returnedData.message} </p>)
+    setFound(returnedData.userExist)
+    setAuthSucceed(returnedData.authSucceed);
+    callBack(isAuthSucceed);
+
+    console.log(response.data);
     }
     catch(error){
         console.log(error);
@@ -64,10 +76,12 @@ function handleExist(){
                 <div className="w-full">
                     <label className="pl-1" htmlFor="">Username:</label>
                     <input onChange={handleChange} value={user.username} type="text" name="username" className="auth-input" />
+                    {!isAuthSucceed && !userFound? message : "" }
                 </div>
                 <div className="w-full">
                     <label className="pl-1" htmlFor="">Password:</label>
                     <input onChange={handleChange} value={user.password} type="password" name="password" className="auth-input" />
+                    {!isAuthSucceed && userFound? message : "" }
                 </div>
                 {!exist && <div className="w-full">
                     <label className="pl-1" htmlFor="">Confirm Password:</label>
@@ -77,25 +91,25 @@ function handleExist(){
                 exist?
                 <button
                 onClick={handleClick} 
-                className="bg-[#bc4e9c] hover:bg-[#fd2c72] w-full h-10 text-amber-50 rounded-md border-2 border-[#bc4e9c]"  >
-                Submit
+                className="bg-[#bc4e9c] hover:bg-[#fd2c72] w-full hover:text-lg h-10 text-amber-50 rounded-md border-2 border-[#bc4e9c]"  >
+                Connecter
                 </button>
                 :
                 <button
                 onClick={handleSigningUP} 
-                className="bg-[#bc4e9c] hover:bg-[#fd2c72] w-full h-10 text-amber-50 rounded-md border-2 border-[#bc4e9c]"  >
-                Sign Up
+                className="bg-[#bc4e9c] hover:bg-[#fd2c72] hover:text-lg w-full h-10 text-amber-50 rounded-md border-2 border-[#bc4e9c]"  >
+                Enrégistrer
                 </button>
                 }   
                 {exist?
                 <div className="flex justify-center items-center flex-col text-center w-full mt-5">
                     <p className="text-justify" >Vous n'etes pas encore enrengistré alors, vous pouvez vous </p> 
-                     <button className="text-[#bc4e9c]" onClick={handleExist} >Enrégistrer</button>
+                     <button className="text-[#bc4e9c] hover:text-[#fd2c72] hover:text-lg " onClick={handleExist} >Enrégistrer</button>
                 </div>
                 :
                 <div className="flex justify-center items-center flex-col text-center w-full mt-5">
                     <p className="text-justify">Si vous etes déja enrengistré alors, vous pouvez vous </p> 
-                    <button className="text-[#bc4e9c]" onClick={handleExist} >Connecter</button>
+                    <button className="text-[#bc4e9c] hover:text-[#fd2c72] hover:text-lg" onClick={handleExist} >Connecter</button>
                 </div>
 
                 }

@@ -38,13 +38,34 @@ app.post("/login",  async (req, res) => {
         const response = await db.query("Select * from users where username = $1", [username]);
         if(response.rows.length <= 0 ){
             console.log('the username you enterred does not exist')
+            res
+                .json({
+                    message : "Le nom d'utilisateur que vous avez renseigné est inéxistent",
+                    authSucceed : false,
+                    userExist : false
+                    
+                })
+                .status(200)
         }else{
             const user = response.rows[0];
             bcrypt.compare(password, user.password, (err, result) => {
                 if(err) console.log(err);
                 if(result){
+                    res
+                        .json({
+                            message : 'Sucesss',
+                            authSucceed : true,
+                            userExist : true
+                        })
+                        .status(200)
                     console.log("Authentication succed");
                 }else{
+                    res
+                        .json({
+                            message : 'Votre authentification a echoué reverifiez le mots de pass',
+                            authSucceed : false,
+                            userExist : true
+                        })
                     console.log('Authentication failed');
                 }
             })
