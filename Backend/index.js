@@ -3,7 +3,9 @@ import env from "dotenv";
 import pg from 'pg';
 import bcrypt, { hash } from "bcrypt" 
 import bodyParser from 'body-parser';    
-import cors from "cors"     
+import cors from "cors"
+import passport from 'passport';   
+import session from 'express-session';  
 
 
 const app = express();
@@ -25,6 +27,20 @@ app.use(cors({
     credentials: true,
     origin: "http://localhost:5173"
 }))
+
+
+app.use(session({
+    secret: 'strongSecret',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        secure: true,
+        maxAge: 1000*60*60
+    }
+
+}))
+
+app.use(passport.session());
 
 const port = process.env.BACKEND_PORT;
 const saltRound = parseInt(process.env.HASH_SALTROUND);
