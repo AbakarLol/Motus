@@ -11,7 +11,6 @@ body{
     background: -webkit-linear-gradient(-45deg, #f80759, #bc4e9c);  /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(-45deg, #f80759, #bc4e9c); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
-
 }
 
 
@@ -20,7 +19,7 @@ body{
         @apply flex justify-around items-center  bg-amber-50 rounded-2xl shadow-xl/40
     }
     .main{
-        @apply flex flex-col items-center justify-start gap-6 sm:gap-8 h-screen sm:h-1/2 w-full p-1 sm:p-3
+        @apply flex flex-col items-center justify-start gap-6 sm:gap-8 sm:h-auto h-[80vh] w-full p-1 sm:p-3
     }
     .scores-label {
         @apply flex justify-between items-end gap-1

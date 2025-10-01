@@ -20,7 +20,7 @@ export default function App(){
 
 
     return (
-        <div className="main">
+        <div className="">
             <Header />
             {
             isAuthenticated? 
@@ -28,7 +28,7 @@ export default function App(){
             :
             <Auth callBack = {callBack} />
             }
-            <Footer />
+            {/* <Footer /> */}
         </div>
     )
 }

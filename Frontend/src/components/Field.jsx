@@ -369,7 +369,7 @@ export default function Field({callBack, setDialog}){
     
     return(
         
-        <div className="card flex-col justify-center-safe gap-0.25 sm:gap-0.5 md:h-150 md:w-150 w-full h-1/2">
+        <div className="card flex-col justify-center-safe gap-0.25 sm:gap-0.5 md:h-110 md:w-150 w-full h-1/2">
             {             
                 words?.map((singleWord, singleWordIndex)=>{
                     
