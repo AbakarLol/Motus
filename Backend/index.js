@@ -5,7 +5,8 @@ import bcrypt, { hash } from "bcrypt"
 import bodyParser from 'body-parser';    
 import cors from "cors"
 import passport from 'passport';   
-import session from 'express-session';  
+import session from 'express-session';
+import { Strategy } from 'passport-local';  
 
 
 const app = express();
@@ -32,7 +33,7 @@ app.use(cors({
 app.use(session({
     secret: 'strongSecret',
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
     cookie: {
         secure: true,
         maxAge: 1000*60*60
@@ -48,47 +49,11 @@ const saltRound = parseInt(process.env.HASH_SALTROUND);
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 
-app.post("/login",  async (req, res) => {
+app.post("/login",  
+    passport.authenticate('local', {faillureRedirect: '/login'}),
+    (req, res) => {
     const {username, password} =  req.body;
-    try{
-        const response = await db.query("Select * from users where username = $1", [username]);
-        if(response.rows.length <= 0 ){
-            console.log('the username you enterred does not exist')
-            res
-                .json({
-                    message : "Le nom d'utilisateur que vous avez renseigné est inéxistent",
-                    authSucceed : false,
-                    userExist : false
-                    
-                })
-                .status(200)
-        }else{
-            const user = response.rows[0];
-            bcrypt.compare(password, user.password, (err, result) => {
-                if(err) console.log(err);
-                if(result){
-                    res
-                        .json({
-                            message : 'Sucesss',
-                            authSucceed : true,
-                            userExist : true
-                        })
-                        .status(200)
-                    console.log("Authentication succed");
-                }else{
-                    res
-                        .json({
-                            message : 'Votre authentification a echoué reverifiez le mots de pass',
-                            authSucceed : false,
-                            userExist : true
-                        })
-                    console.log('Authentication failed');
-                }
-            })
-        }
-    }catch(error){
-        console.log(error)
-    }
+    console.log(req.user)
 });
 
 
@@ -105,6 +70,63 @@ app.post("/signup", async (req, res) => {
 
     })
     
+})
+
+
+passport.use(new Strategy( async function verify (username, password, cb) {
+    try{
+        const response = await db.query("Select * from users where username = $1", [username]);
+        if(response.rows.length <= 0 ){
+            console.log('the username you enterred does not exist')
+            cb(null, false, {message:"No username"})
+            // res
+            //     .json({
+            //         message : "Le nom d'utilisateur que vous avez renseigné est inéxistent",
+            //         authSucceed : false,
+            //         userExist : false
+                    
+            //     })
+            //     .status(200)
+        }else{
+            const user = response.rows[0];
+            bcrypt.compare(password, user.password, (err, result) => {
+                if(err) console.log(err);
+                if(result){
+                    cb(null, user, {message:"Authentication succeed"})
+                    // res
+                    //     .json({
+                    //         message : 'Sucesss',
+                    //         authSucceed : true,
+                    //         userExist : true
+                    //     })
+                    //     .status(200)
+                    console.log("Authentication succed");
+                }else{
+                    cb(null, false, {message:"Authentication failed"})
+                    // res
+                    //     .json({
+                    //         message : 'Votre authentification a echoué reverifiez le mots de pass',
+                    //         authSucceed : false,
+                    //         userExist : true
+                    //     })
+                    console.log('Authentication failed');
+                }
+            })
+        }
+    }catch(error){
+        cb(error)
+        console.log(error)
+    }
+
+} ));
+
+
+passport.serializeUser((user, cb) => {
+    cb(null, user)
+})
+
+passport.deserializeUser((user, cb) => {
+    cb(null, user)
 })
 
 app.listen(port, ()=>{
