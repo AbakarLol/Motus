@@ -6,7 +6,7 @@ import bodyParser from 'body-parser';
 import cors from "cors"
 import passport from 'passport';   
 import session from 'express-session';
-import { Strategy } from 'passport-local';  
+import  LocalStrategy  from 'passport-local';  
 
 
 const app = express();
@@ -35,11 +35,14 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
     cookie: {
-        secure: true,
+        secure: false,
         maxAge: 1000*60*60
     }
 
 }))
+
+
+app.use(passport.initialize())
 
 app.use(passport.session());
 
@@ -49,10 +52,15 @@ const saltRound = parseInt(process.env.HASH_SALTROUND);
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 
+
+app.get("/login/failed", (req, res) => {
+    const failureMessage = req.session.messages ;
+    console.log(failureMessage);
+})
+
 app.post("/login",  
-    passport.authenticate('local', {faillureRedirect: '/login'}),
+    passport.authenticate('local', {failureRedirect: '/login/failed', failureMessage:true}),
     (req, res) => {
-    const {username, password} =  req.body;
     console.log(req.user)
 });
 
@@ -73,12 +81,12 @@ app.post("/signup", async (req, res) => {
 })
 
 
-passport.use(new Strategy( async function verify (username, password, cb) {
+passport.use(new LocalStrategy( async function verify (username, password, cb) {
     try{
         const response = await db.query("Select * from users where username = $1", [username]);
         if(response.rows.length <= 0 ){
             console.log('the username you enterred does not exist')
-            cb(null, false, {message:"No username"})
+            return cb(null, false, {message:"Le nom d'utilisateur que vous avez renseigné est inéxistent"})
             // res
             //     .json({
             //         message : "Le nom d'utilisateur que vous avez renseigné est inéxistent",
@@ -92,7 +100,7 @@ passport.use(new Strategy( async function verify (username, password, cb) {
             bcrypt.compare(password, user.password, (err, result) => {
                 if(err) console.log(err);
                 if(result){
-                    cb(null, user, {message:"Authentication succeed"})
+                    return cb(null, user, {message:"Authentication succeed"})
                     // res
                     //     .json({
                     //         message : 'Sucesss',
@@ -102,19 +110,19 @@ passport.use(new Strategy( async function verify (username, password, cb) {
                     //     .status(200)
                     console.log("Authentication succed");
                 }else{
-                    cb(null, false, {message:"Authentication failed"})
+                    return cb(null, false, {message:"Votre authentification a echoué reverifiez le mots de pass"})
                     // res
                     //     .json({
                     //         message : 'Votre authentification a echoué reverifiez le mots de pass',
                     //         authSucceed : false,
                     //         userExist : true
                     //     })
-                    console.log('Authentication failed');
+                    // console.log('Authentication failed');
                 }
             })
         }
     }catch(error){
-        cb(error)
+        return cb(error)
         console.log(error)
     }
 
