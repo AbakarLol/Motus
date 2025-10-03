@@ -7,6 +7,7 @@ import cors from "cors"
 import passport from 'passport';   
 import session from 'express-session';
 import  LocalStrategy  from 'passport-local';  
+import flash from 'connect-flash'
 
 
 const app = express();
@@ -29,18 +30,21 @@ app.use(cors({
     origin: "http://localhost:5173"
 }))
 
+app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.json());
+
+
 
 app.use(session({
     secret: 'strongSecret',
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: {
         secure: false,
         maxAge: 1000*60*60
     }
 
 }))
-
 
 app.use(passport.initialize())
 
@@ -49,20 +53,24 @@ app.use(passport.session());
 const port = process.env.BACKEND_PORT;
 const saltRound = parseInt(process.env.HASH_SALTROUND);
 
-app.use(bodyParser.urlencoded({extended:true}));
-app.use(bodyParser.json());
 
 
 app.get("/login/failed", (req, res) => {
-    const failureMessage = req.session.messages ;
-    console.log(failureMessage);
+    console.log(req.session.messages);
 })
 
-app.post("/login",  
-    passport.authenticate('local', {failureRedirect: '/login/failed', failureMessage:true}),
-    (req, res) => {
-    console.log(req.user)
-});
+app.get("/login/success", (req, res) => {
+    console.log(req.session.messages)
+})
+
+app.post("/login", 
+    passport.authenticate('local',{
+        successRedirect: 'login/success',
+        successMessage : true,
+        failureRedirect: '/login/failed', 
+        failureMessage :true
+    }),
+ );
 
 
 app.post("/signup", async (req, res) => {
@@ -81,12 +89,12 @@ app.post("/signup", async (req, res) => {
 })
 
 
-passport.use(new LocalStrategy( async function verify (username, password, cb) {
+passport.use(new LocalStrategy( async function verify (username, password, done) {
     try{
         const response = await db.query("Select * from users where username = $1", [username]);
         if(response.rows.length <= 0 ){
             console.log('the username you enterred does not exist')
-            return cb(null, false, {message:"Le nom d'utilisateur que vous avez renseigné est inéxistent"})
+            return done(null, false, { message: "Le nom d'utilisateur que vous avez renseigné est inéxistent"})
             // res
             //     .json({
             //         message : "Le nom d'utilisateur que vous avez renseigné est inéxistent",
@@ -98,9 +106,9 @@ passport.use(new LocalStrategy( async function verify (username, password, cb) {
         }else{
             const user = response.rows[0];
             bcrypt.compare(password, user.password, (err, result) => {
-                if(err) console.log(err);
+                if(err) return done(err);
                 if(result){
-                    return cb(null, user, {message:"Authentication succeed"})
+                    return done(null, user, { message :"Authentication succeed"})
                     // res
                     //     .json({
                     //         message : 'Sucesss',
@@ -110,7 +118,7 @@ passport.use(new LocalStrategy( async function verify (username, password, cb) {
                     //     .status(200)
                     console.log("Authentication succed");
                 }else{
-                    return cb(null, false, {message:"Votre authentification a echoué reverifiez le mots de pass"})
+                    return done(null, false, {message:"Votre authentification a echoué reverifiez le mots de pass"})
                     // res
                     //     .json({
                     //         message : 'Votre authentification a echoué reverifiez le mots de pass',
@@ -123,18 +131,17 @@ passport.use(new LocalStrategy( async function verify (username, password, cb) {
         }
     }catch(error){
         return cb(error)
-        console.log(error)
     }
 
 } ));
 
 
-passport.serializeUser((user, cb) => {
-    cb(null, user)
+passport.serializeUser((user, done) => {
+    done(null, user)
 })
 
-passport.deserializeUser((user, cb) => {
-    cb(null, user)
+passport.deserializeUser((user, done) => {
+    done(null, user)
 })
 
 app.listen(port, ()=>{
