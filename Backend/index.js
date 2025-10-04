@@ -63,14 +63,13 @@ app.get("/login/success", (req, res) => {
     console.log(req.session.messages)
 })
 
-app.post("/login", 
-    passport.authenticate('local',{
-        successRedirect: 'login/success',
-        successMessage : true,
-        failureRedirect: '/login/failed', 
-        failureMessage :true
-    }),
- );
+app.post("login", 
+    passport.authenticate('local', {
+        failureRedirect: "/login/failed",
+        failureMessage: true,
+        successRedirect: '/login/sucess'
+    })
+)
 
 
 app.post("/signup", async (req, res) => {

@@ -29,7 +29,8 @@ async function handleClick(){
         const response = await axios.post("http://localhost:3000/login", {
         username: user.username,
         password: user.password
-    })
+    }
+)
     const returnedData = response.data;
     setMessage(<p className="text-red-400" > {returnedData.message} </p>)
     setFound(returnedData.userExist)
