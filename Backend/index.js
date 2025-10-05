@@ -63,12 +63,20 @@ app.get("/login/success", (req, res) => {
     console.log(req.session.messages)
 })
 
-app.post("login", 
-    passport.authenticate('local', {
-        failureRedirect: "/login/failed",
-        failureMessage: true,
-        successRedirect: '/login/sucess'
-    })
+app.post("/login", (req, res, next) => {
+
+
+    // passport.authenticate('local', {
+    //     failureMessage: true,
+    //     failureRedirect: "/login/failed",
+    //     successRedirect: '/login/success',
+    //     successMessage: true
+    // })
+
+    passport.authenticate('local', (err, user, info) => {
+    console.log(info); // { message: "Invalid username" }
+})(req, res, next);
+}
 )
 
 
@@ -107,7 +115,10 @@ passport.use(new LocalStrategy( async function verify (username, password, done)
             bcrypt.compare(password, user.password, (err, result) => {
                 if(err) return done(err);
                 if(result){
-                    return done(null, user, { message :"Authentication succeed"})
+                    return done(null, user, { message :{
+                        text : "Authentication succeed",
+                        exist : true
+                    }})
                     // res
                     //     .json({
                     //         message : 'Sucesss',
@@ -129,7 +140,7 @@ passport.use(new LocalStrategy( async function verify (username, password, done)
             })
         }
     }catch(error){
-        return cb(error)
+        return done(error)
     }
 
 } ));

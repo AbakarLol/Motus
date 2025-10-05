@@ -29,6 +29,9 @@ async function handleClick(){
         const response = await axios.post("http://localhost:3000/login", {
         username: user.username,
         password: user.password
+    },
+    {
+        withCredentials:true
     }
 )
     const returnedData = response.data;
