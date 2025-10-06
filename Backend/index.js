@@ -7,7 +7,6 @@ import cors from "cors"
 import passport from 'passport';   
 import session from 'express-session';
 import  LocalStrategy  from 'passport-local';  
-import flash from 'connect-flash'
 
 
 const app = express();
@@ -41,7 +40,7 @@ app.use(session({
     saveUninitialized: false,
     cookie: {
         secure: false,
-        maxAge: 1000*60*60
+        maxAge: 1000*60
     }
 
 }))
@@ -55,8 +54,22 @@ const saltRound = parseInt(process.env.HASH_SALTROUND);
 
 
 
-app.get("/login/failed", (req, res) => {
-    console.log(req.session.messages);
+app.get("/game", (req, res) => {
+   if(req.isAuthenticated()){
+    res
+        .json({
+            text: "Authentication Success",
+            authSucceed: true,
+            userExist: true,
+        })
+        .status(200)
+   }else{
+    res
+        .json({
+            authSucceed: false
+        })
+        .status(200) 
+   }
 })
 
 app.get("/login/success", (req, res) => {
@@ -74,16 +87,18 @@ app.post("/login", (req, res, next) => {
     // })
 
     passport.authenticate('local', (err, user, info) => {
-    if(err){ return nex(err) }
+    if(err){ return next(err) }
     if(!user){
         const {text, userExist, authSucceed} = info.message
-        console.log(text)
+        res
+                .json(info.message)
+                .status(200)
     }else{
         req.logIn(user, err => {
-         return next(err)   
-        })
-        const {text, userExist, authSucceed} = info.message
-        console.log( "message " + exist);
+         if(err) return next(err);
+         return res.redirect("/game")   
+        });
+        
     }
 })(req, res, next);
 }
@@ -116,14 +131,7 @@ passport.use(new LocalStrategy( async function verify (username, password, done)
                 userExist : false,
                 authSucceed : false
             }})
-            // res
-            //     .json({
-            //         message : "Le nom d'utilisateur que vous avez renseigné est inéxistent",
-            //         authSucceed : false,
-            //         userExist : false
-                    
-            //     })
-            //     .status(200)
+            
         }else{
             const user = response.rows[0];
             bcrypt.compare(password, user.password, (err, result) => {

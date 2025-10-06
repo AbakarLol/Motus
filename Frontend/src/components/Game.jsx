@@ -4,7 +4,6 @@ import Board from "./Board"
 import Field from "./Field"
 import { useState } from "react"
 import Dialog from "./Dialog"
-import Auth from "./Auth"
 
 
 
@@ -35,6 +34,10 @@ function App() {
     })
 
   }
+
+
+  
+
 
   return (
     <div className="main">  

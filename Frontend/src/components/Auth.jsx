@@ -1,7 +1,8 @@
 import { useState } from "react";
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
-export default function Auth({callBack}){
+export default function Auth(){
     const [user, setUser] = useState({
         username : "",
         password : "",
@@ -16,6 +17,8 @@ export default function Auth({callBack}){
 
     const [isAuthSucceed, setAuthSucceed] = useState(false);
 
+    const navigate = useNavigate()
+
 
 function handleChange(event){
    const {name, value} = event.target;
@@ -26,7 +29,7 @@ function handleChange(event){
 
 async function handleClick(){
     try{
-        const response = await axios.post("http://localhost:3000/login", {
+        const response = await axios.post("http://localhost:3000/login",  {
         username: user.username,
         password: user.password
     },
@@ -35,10 +38,13 @@ async function handleClick(){
     }
 )
     const returnedData = response.data;
-    setMessage(<p className="text-red-400" > {returnedData.message} </p>)
+    setMessage(<p className="text-red-400 text-sm sm:text-md" > {returnedData.text} </p>)
     setFound(returnedData.userExist)
     setAuthSucceed(returnedData.authSucceed);
-    callBack(isAuthSucceed);
+    
+      if(returnedData.authSucceed){
+        navigate("/")
+    }
 
     console.log(response.data);
     }
