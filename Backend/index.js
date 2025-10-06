@@ -74,7 +74,17 @@ app.post("/login", (req, res, next) => {
     // })
 
     passport.authenticate('local', (err, user, info) => {
-    console.log(info); // { message: "Invalid username" }
+    if(err){ return nex(err) }
+    if(!user){
+        const {text, userExist, authSucceed} = info.message
+        console.log(text)
+    }else{
+        req.logIn(user, err => {
+         return next(err)   
+        })
+        const {text, userExist, authSucceed} = info.message
+        console.log( "message " + exist);
+    }
 })(req, res, next);
 }
 )
@@ -101,7 +111,11 @@ passport.use(new LocalStrategy( async function verify (username, password, done)
         const response = await db.query("Select * from users where username = $1", [username]);
         if(response.rows.length <= 0 ){
             console.log('the username you enterred does not exist')
-            return done(null, false, { message: "Le nom d'utilisateur que vous avez renseigné est inéxistent"})
+            return done(null, false, { message: {
+                text : "Le nom d'utilisateur que vous avez renseigné est inéxistent",
+                userExist : false,
+                authSucceed : false
+            }})
             // res
             //     .json({
             //         message : "Le nom d'utilisateur que vous avez renseigné est inéxistent",
@@ -117,7 +131,8 @@ passport.use(new LocalStrategy( async function verify (username, password, done)
                 if(result){
                     return done(null, user, { message :{
                         text : "Authentication succeed",
-                        exist : true
+                        userExist : true,
+                        authSucceed: true,
                     }})
                     // res
                     //     .json({
@@ -128,7 +143,11 @@ passport.use(new LocalStrategy( async function verify (username, password, done)
                     //     .status(200)
                     console.log("Authentication succed");
                 }else{
-                    return done(null, false, {message:"Votre authentification a echoué reverifiez le mots de pass"})
+                    return done(null, false, {message:{
+                        text: "Votre authentification a echoué reverifiez le mots de pass",
+                        userExist: true,
+                        authSucceed: false
+                    }})
                     // res
                     //     .json({
                     //         message : 'Votre authentification a echoué reverifiez le mots de pass',
