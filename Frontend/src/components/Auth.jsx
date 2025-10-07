@@ -80,7 +80,7 @@ function handleExist(){
 
 
     return(
-        <div className="flex justify-center items-center mt-10 w-full ">
+        <div className="flex justify-center items-center mt-10 w-full h-[80vh] ">
             <div className="gradient card sm:w-120 h-120 w-80 flex flex-col justify-arround items-start px-3 sm:px-4 py-15 sm:rounded-2xl rounded-xl" >
                 
                 <div className="w-full">

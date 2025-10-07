@@ -34,13 +34,19 @@ export default function App(){
     return (
         <div className="">
 
-            <Header />
+            
             
             {/* <Footer /> */}
 
             <Routes>
                 <Route exact path={'/auth'} element={<Auth />} /> 
-                <Route exact path={'/'} element= {<Game />} /> 
+                <Route exact path={'/'} element= {
+                    <div>
+                        <Header />
+                        <Game />
+                    </div>
+                } 
+                /> 
             </Routes>
         </div>
     )
