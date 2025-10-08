@@ -72,19 +72,8 @@ app.get("/game", (req, res) => {
    }
 })
 
-app.get("/login/success", (req, res) => {
-    console.log(req.session.messages)
-})
 
 app.post("/login", (req, res, next) => {
-
-
-    // passport.authenticate('local', {
-    //     failureMessage: true,
-    //     failureRedirect: "/login/failed",
-    //     successRedirect: '/login/success',
-    //     successMessage: true
-    // })
 
     passport.authenticate('local', (err, user, info) => {
     if(err){ return next(err) }
@@ -142,27 +131,14 @@ passport.use(new LocalStrategy( async function verify (username, password, done)
                         userExist : true,
                         authSucceed: true,
                     }})
-                    // res
-                    //     .json({
-                    //         message : 'Sucesss',
-                    //         authSucceed : true,
-                    //         userExist : true
-                    //     })
-                    //     .status(200)
-                    console.log("Authentication succed");
+                    
                 }else{
                     return done(null, false, {message:{
                         text: "Votre authentification a echoué reverifiez le mots de pass",
                         userExist: true,
                         authSucceed: false
                     }})
-                    // res
-                    //     .json({
-                    //         message : 'Votre authentification a echoué reverifiez le mots de pass',
-                    //         authSucceed : false,
-                    //         userExist : true
-                    //     })
-                    // console.log('Authentication failed');
+                   ;
                 }
             })
         }

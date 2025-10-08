@@ -1,6 +1,5 @@
 import {useEffect } from "react";
 import Auth from "./Auth";
-import Footer from "./Footer";
 import Game from "./Game";
 import Header from "./Header";
 import {Routes, Route, useNavigate} from 'react-router-dom';
