@@ -19,6 +19,8 @@ export default function Auth(){
 
     const navigate = useNavigate()
 
+    let base = import.meta.env.VITE_backend_Url;
+
 
 function handleChange(event){
    const {name, value} = event.target;
@@ -29,7 +31,7 @@ function handleChange(event){
 
 async function handleClick(){
     try{
-        const response = await axios.post("http://localhost:3000/login",  {
+        const response = await axios.post(`${base}/login`,  {
         username: user.username,
         password: user.password
     },
@@ -57,7 +59,7 @@ async function handleClick(){
 async function handleSigningUP() {
     if(user.password === user.passwordConfirmation){
         try {
-        const response = await axios.post("http://localhost:3000/signup", {
+        const response = await axios.post(`${base}/signup`, {
             username : user.username,
             password : user.password
         })
