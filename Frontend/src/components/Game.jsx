@@ -1,5 +1,3 @@
-import Footer from "./Footer"
-import Header from "./Header"
 import Board from "./Board"
 import Field from "./Field"
 import { useState } from "react"

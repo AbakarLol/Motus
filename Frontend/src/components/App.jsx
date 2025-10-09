@@ -11,7 +11,6 @@ import axios from "axios";
 
 export default function App(){
 
-   
 
     const navigate = useNavigate();
 
