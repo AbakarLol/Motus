@@ -26,7 +26,7 @@ db.connect();
 
 app.use(cors({
     credentials: true,
-    origin: "http://localhost:5173"
+    origin: process.env.FRONT_URL
 }))
 
 app.use(bodyParser.urlencoded({extended:false}));
@@ -40,7 +40,7 @@ app.use(session({
     saveUninitialized: false,
     cookie: {
         secure: false,
-        maxAge: 1000*60
+        maxAge: 1000*60*60
     }
 
 }))
