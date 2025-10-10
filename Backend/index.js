@@ -50,10 +50,10 @@ app.use(passport.initialize())
 app.use(passport.session());
 
 const port = process.env.BACKEND_PORT;
-const saltRound = parseInt(process.env.HASH_SALTROUND);
+const saltRound = parseInt(process.env.HASH_SALTROUND);      // salt round used to encrypt the client's password
 
 
-
+// accessing into the game motus require authentication
 app.get("/game", (req, res) => {
    if(req.isAuthenticated()){
     res
@@ -73,7 +73,7 @@ app.get("/game", (req, res) => {
 })
 
 
-
+// login and manage passport middleware actions
 app.post("/login", (req, res, next) => {
 
     passport.authenticate('local', (err, user, info) => {
@@ -94,7 +94,7 @@ app.post("/login", (req, res, next) => {
 }
 )
 
-
+// signup user with username and password with hash
 app.post("/signup", async (req, res) => {
     const {username, password} = req.body;
     bcrypt.hash(password, saltRound, async (err, hash) => {
@@ -111,6 +111,7 @@ app.post("/signup", async (req, res) => {
 })
 
 
+// passport and local stretegy  middleware to verify and authenticate client
 passport.use(new LocalStrategy( async function verify (username, password, done) {
     try{
         const response = await db.query("Select * from users where username = $1", [username]);
